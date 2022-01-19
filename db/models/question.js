@@ -4,10 +4,16 @@ module.exports = (sequelize, DataTypes) => {
         title: {
             allowNull: false,
             type: DataTypes.STRING(255),
+            validate: {
+                len: [10, 255],
+            },
         },
         description: {
             allowNull: false,
             type: DataTypes.TEXT,
+            validate: {
+                len: [10, 500],
+            },
         },
         userId: {
             allowNull: false,

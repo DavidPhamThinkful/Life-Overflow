@@ -18,7 +18,8 @@ module.exports = {
             { name: 'Family' },
             { name: 'Friends' },
             { name: 'Romance' },
-            { name: 'Life/Death' },
+            { name: 'Life' },
+            { name: 'Death' },
         ], { fields: ['name'], returning: true });
 
         const questions = await queryInterface.bulkInsert('Questions', [
@@ -41,9 +42,9 @@ module.exports = {
 
       Example:
       */
-        await queryInterface.bulkDelete('Users', null, {});
-        await queryInterface.bulkDelete('Categories', null, {});
-        await queryInterface.bulkDelete('Questions', null, {});
         await queryInterface.bulkDelete('Answers', null, {});
+        await queryInterface.bulkDelete('Questions', null, {});
+        await queryInterface.bulkDelete('Categories', null, {});
+        await queryInterface.bulkDelete('Users', null, {});
     },
 };
