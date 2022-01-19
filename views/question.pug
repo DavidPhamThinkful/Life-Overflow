@@ -4,5 +4,5 @@ block content
     if questions
         ul
             each question in questions
-                label(for='question')= question.title
+                label(for='question'): a(href=`/questions/${question.id}`)= question.title
                 li(name='question')= question.description
