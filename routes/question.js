@@ -6,8 +6,10 @@ const db = require('../db/models');
 const router = express.Router();
 
 router.get('/', asyncHandler((async (req, res) => {
-    const questions = await db.Question.findAll();
-        res.render('question', {title:'Here is the list of questions',questions}); 
+    const questions = await db.Question.findAll({
+        include: [{model: db.Answer}, {model: db.Category}, {model: db.User}]});
+    console.log(questions)
+        res.render('question', {title:'Here is the list of questions', questions, user: res.locals.user});
 })));
 
 
@@ -28,7 +30,7 @@ router.post('/',requireAuth, csrfProtection, asyncHandler((async (req, res) => {
         errors.push("Description must be within 10 characters!")
     }
 
-    
+
     if(!errors.length){
         const question = await db.Question.create({
         title,
@@ -36,20 +38,20 @@ router.post('/',requireAuth, csrfProtection, asyncHandler((async (req, res) => {
         userId: req.session.auth.userId,
         categoryId
     });
-    
+
         res.redirect('/questions');
     } else {
         res.render('new-question', {title:'Ask your question or forever hold your peace!!!',categories, id:"", question:{title: null, description: null}, errors, csrfToken: req.csrfToken()});
     }
-    
 
-    
+
+
 })));
 
 
 router.get('/:id(\\d+)',requireAuth, asyncHandler((async (req, res) => {
     const question = await db.Question.findByPk(req.params.id);
-    res.render('question', { title:'Here is your question! ANSWER OR BEGONE!',questions: [question] } ); 
+    res.render('question', { title:'Here is your question! ANSWER OR BEGONE!',questions: [question] } );
 })));
 
 router.get('/:id/edit',requireAuth, asyncHandler((async (req, res) =>{
@@ -59,7 +61,7 @@ router.get('/:id/edit',requireAuth, asyncHandler((async (req, res) =>{
 
 })));
 
-router.post('/:id(\\d+)',requireAuth, asyncHandler((async (req, res) => {  
+router.post('/:id(\\d+)',requireAuth, asyncHandler((async (req, res) => {
     const {title, description, categoryId} = req.body;
 
     const question = await db.Question.findByPk(req.params.id);
@@ -75,10 +77,10 @@ router.post('/:id(\\d+)',requireAuth, asyncHandler((async (req, res) => {
     res.redirect(`/questions/${question.id}`)
 
 
-  
-    
+
+
 })));
-router.delete('/:id',requireAuth, asyncHandler((async (req, res) => {
+router.post('/:id/delete',requireAuth, asyncHandler((async (req, res) => {
     const question = await db.Question.findByPk(req.params.id);
     await question.destroy();
     res.redirect('questions')
