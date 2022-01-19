@@ -8,9 +8,10 @@ const { loginUser, logoutUser } = require('../auth.js');
 const router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res) {
-    res.render('index', { title: 'a/A Express Skeleton Home' });
-});
+router.get('/', asyncHandler(async (req, res) => {
+    const categories = await db.Category.findAll();
+    res.render('index', { title: 'Welcome to LifeOverflow', categories });
+}));
 
 const registerValidators = [
     check('username')

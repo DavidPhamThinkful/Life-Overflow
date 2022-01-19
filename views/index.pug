@@ -7,4 +7,8 @@ append head
   script(src="/javascripts/index.js" type="module" defer)
 
 block content
-  p Welcome to your Project Skeleton
+  p Where you can ask questions within a category and get answers. Or you can answer other's questions.
+  div(id='main-container')
+    each cat in categories
+      div= cat.name
+        a(href=`/categories/${encodeURIComponent(cat.name.toLowerCase())}`) click here
