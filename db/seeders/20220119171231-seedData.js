@@ -19,7 +19,7 @@ module.exports = {
             { name: 'Friends' },
             { name: 'Romance' },
             { name: 'Life' },
-            { name: 'Death'},
+            { name: 'Death' },
         ], { fields: ['name'], returning: true });
 
         const questions = await queryInterface.bulkInsert('Questions', [
