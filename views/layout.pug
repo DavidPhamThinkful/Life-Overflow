@@ -5,4 +5,18 @@ html
         title="Express Starter App"
         link(rel='stylesheet' href='/stylesheets/reset.css')
   body
+    nav
+      ul
+        li: a(href='/') Home
+        li: input(type='text' placeholder='Search')
+    if locals.authenticated
+      form(action='/logout' method='post')
+        button(type='submit') logout
+    else
+      ul
+        li: a(href='/login') login
+        li: a(href='/register') Register
+    
+    h1= title
+
     block content
