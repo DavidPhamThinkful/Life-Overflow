@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const { csrfProtection, asyncHandler } = require('../utils.js');
 const { check, validationResult } = require('express-validator');
 const { loginUser, logoutUser } = require('../auth.js');
+const { Sequelize } = require('../db/models');
 
 const router = express.Router();
 
@@ -133,5 +134,26 @@ router.post('/demo', asyncHandler(async (req, res) => {
     res.redirect('/');
 }));
 
+router.get('/search', asyncHandler(async (req, res) => {
+    const { query } = req.query;
+    const questions = await db.Question.findAll({
+        where: {
+            [Sequelize.Op.or]: [
+                {
+                    title: {
+                        [Sequelize.Op.iLike]: `%${query}%`,
+                    },
+                },
+                {
+                    description: {
+                        [Sequelize.Op.iLike]: `%${query}%`,
+                    },
+                },
+            ],
+        },
+    });
+
+    res.render('search', { title: query, questions });
+}));
 
 module.exports = router;

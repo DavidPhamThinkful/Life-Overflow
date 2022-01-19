@@ -4,20 +4,23 @@ html
       block head
         title="Express Starter App"
         link(rel='stylesheet' href='/stylesheets/reset.css')
+        script(src="/javascripts/index.js" type="module" defer)
+
   body
-    nav
-      ul
-        li: a(href='/') Home
-        li: input(type='text' placeholder='Search')
-    if locals.authenticated
-      form(action='/logout' method='post')
-        button(type='submit') logout
-    else
-      ul
-        li: a(href='/login') login
-        li: a(href='/register') Register
-      form(action='/demo' method='post')
-        button(type='submit') Demo User
+    nav(id='nav')
+      a(href='/') Home
+      form(action='/search')
+        input(type='search' name='query' placeholder='Search')
+        button(type='submit') Search
+      if locals.authenticated
+        form(action='/logout' method='post')
+          button(type='submit') logout
+      else
+        ul
+          li: a(href='/login') login
+          li: a(href='/register') Register
+        form(action='/demo' method='post')
+          button(type='submit') Demo User
     
     h1= title
 
