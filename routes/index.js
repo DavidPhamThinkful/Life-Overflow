@@ -4,13 +4,15 @@ const bcrypt = require('bcryptjs');
 const { csrfProtection, asyncHandler } = require('../utils.js');
 const { check, validationResult } = require('express-validator');
 const { loginUser, logoutUser } = require('../auth.js');
+const { Sequelize } = require('../db/models');
 
 const router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res) {
-    res.render('index', { title: 'a/A Express Skeleton Home' });
-});
+router.get('/', asyncHandler(async (req, res) => {
+    const categories = await db.Category.findAll();
+    res.render('index', { title: 'Welcome to LifeOverflow', categories });
+}));
 
 const registerValidators = [
     check('username')
@@ -132,5 +134,26 @@ router.post('/demo', asyncHandler(async (req, res) => {
     res.redirect('/');
 }));
 
+router.get('/search', asyncHandler(async (req, res) => {
+    const { query } = req.query;
+    const questions = await db.Question.findAll({
+        where: {
+            [Sequelize.Op.or]: [
+                {
+                    title: {
+                        [Sequelize.Op.iLike]: `%${query}%`,
+                    },
+                },
+                {
+                    description: {
+                        [Sequelize.Op.iLike]: `%${query}%`,
+                    },
+                },
+            ],
+        },
+    });
+
+    res.render('search', { title: query, questions });
+}));
 
 module.exports = router;
