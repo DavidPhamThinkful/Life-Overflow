@@ -6,9 +6,10 @@ const logger = require('morgan');
 const { sequelize } = require('./db/models');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const { restoreUser, requireAuth } = require('./auth.js');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const { restoreUser, requireAuth } = require('./auth.js');
+const categoriesRouter = require('./routes/categories');
 const questionRouter = require('./routes/question');
 
 const app = express();
@@ -40,6 +41,7 @@ store.sync();
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/categories', categoriesRouter);
 app.use('/questions', questionRouter);
 
 // catch 404 and forward to error handler

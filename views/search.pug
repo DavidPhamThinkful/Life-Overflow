@@ -1,0 +1,9 @@
+extends layout.pug
+
+block content
+  if questions.length
+    each question in questions
+      div=question.title
+        p= question.description
+  else
+    p There are no results that matches your search.

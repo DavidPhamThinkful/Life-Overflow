@@ -25,3 +25,18 @@ body, header, nav {
 h1 {
   font-size: 2rem;
 }
+
+#nav {
+  display: flex;
+  justify-content: center;
+}
+
+#nav ul {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+}
+
+#main-container {
+  background-color: red;
+}
