@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    if questions
+        ul
+            each question in questions
+                label(for='question')= question.title
+                li(name='question')= question.description
