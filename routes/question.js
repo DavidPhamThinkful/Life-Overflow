@@ -7,13 +7,13 @@ const router = express.Router();
 
 router.get('/', asyncHandler((async (req, res) => {
     const questions = await db.Question.findAll();
-        res.render('question', {questions});
+        res.render('question', {title:'Here is the list of questions',questions}); 
 })));
 
 
 router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
     const categories = await db.Category.findAll();
-    res.render('new-question', {categories, csrfToken: req.csrfToken()});
+    res.render('new-question', {title:'Ask your question or forever hold your peace!!!',categories, csrfToken: req.csrfToken()});
 }));
 router.post('/',requireAuth, csrfProtection, asyncHandler((async (req, res) => {
     const { title, description, categoryId} = req.body;
@@ -23,18 +23,45 @@ router.post('/',requireAuth, csrfProtection, asyncHandler((async (req, res) => {
         userId: req.session.auth.userId,
         categoryId
     });
-    res.redirect('/questions');
+    res.redirect('questions');
 })));
 
 
-router.get('/questions/:id',requireAuth, asyncHandler((async (req, res) => {
+router.get('/:id',requireAuth, asyncHandler((async (req, res) => {
+    const question = await db.Question.findByPk(req.params.id);
+    res.render('questions', { title:'Here is your question! ANSWER OR BEGONE!',questions: [question] } ); 
+})));
+
+router.get('/:id/edit',requireAuth, asyncHandler((async (req, res) =>{
+    const question = await db.Question.findByPk(req.params.id);
+    const categories = await db.Category.findAll();
+    res.render('new-question', {title:'Edit your question!', question, categories, csrfToken:req.csrfToken()})
 
 })));
-router.put('/questions/:id',requireAuth, asyncHandler((async (req, res) => {
 
+router.post('/:id',requireAuth, asyncHandler((async (req, res) => {  
+    const {title, description, categoryId} = req.body;
+
+    const question = await db.Question.findByPk(req.params.id);
+
+    question.title = title;
+
+    question.description = description;
+
+    question.categoryId = categoryId;
+
+    await question.save();
+
+    res.redirect(`/questions/${question.id}`)
+
+
+  
+    
 })));
-router.delete('/questions/:id',requireAuth, asyncHandler((async (req, res) => {
-
+router.delete('/:id',requireAuth, asyncHandler((async (req, res) => {
+    const question = await db.Question.findByPk(req.params.id);
+    await question.destroy();
+    res.redirect('questions')
 })));
 
 

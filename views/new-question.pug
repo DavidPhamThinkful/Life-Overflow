@@ -5,8 +5,8 @@ include utils
 block content
     form(action='/questions/new' method='POST')
         input(type='hidden' name='_csrf' value=csrfToken)
-        +field('Title', 'title', null, 'text', 'Title')
-        +field('Description', 'description', null, 'textarea', 'Description')
+        +field('Title', 'title', question.title, 'text', 'Title')
+        +field('Description', 'description', question.description, 'textarea', 'Description')
         label(for='categories') Categories
         select(name='categories')
             each category in categories
