@@ -81,7 +81,7 @@ router.post('/:id/edit',requireAuth, asyncHandler((async (req, res) => {
 
 
 })));
-router.post('/:id/delete',requireAuth, asyncHandler((async (req, res) => {
+router.post('/:id/delete', requireAuth, asyncHandler((async (req, res) => {
     const question = await db.Question.findByPk(req.params.id);
     await question.destroy();
     res.redirect('/questions')
