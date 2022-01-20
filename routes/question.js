@@ -48,21 +48,21 @@ router.post('/',requireAuth, csrfProtection, asyncHandler((async (req, res) => {
 })));
 
 
-router.get('/:id(\\d+)',requireAuth, asyncHandler((async (req, res) => {
+router.get('/:id',requireAuth, asyncHandler((async (req, res) => {
     const questions = [await db.Question.findOne({ where: {id: req.params.id},
         include: [{model: db.Answer}, {model: db.Category}, {model: db.User}]})];
         console.log(questions[0].Answers[0])
         res.render('question', {title: 'Answer and Begone', questions, id: req.params.id, user: res.locals.user});
 })));
 
-router.get('/:id/edit',requireAuth, asyncHandler((async (req, res) =>{
+router.get('/:id/edit',requireAuth, csrfProtection,  asyncHandler((async (req, res) =>{
     const question = await db.Question.findByPk(req.params.id);
     const categories = await db.Category.findAll();
-    res.render('new-question', {title:'Edit your question!', question, id:`/${req.params.id}`,categories, csrfToken:req.csrfToken()})
+    res.render('new-question', {title:'Edit your question!', question, id:`/${req.params.id}/edit`,categories, csrfToken: req.csrfToken()})
 
 })));
 
-router.post('/:id(\\d+)',requireAuth, asyncHandler((async (req, res) => {
+router.post('/:id/edit',requireAuth, asyncHandler((async (req, res) => {
     const {title, description, categoryId} = req.body;
 
     const question = await db.Question.findByPk(req.params.id);
@@ -84,7 +84,7 @@ router.post('/:id(\\d+)',requireAuth, asyncHandler((async (req, res) => {
 router.post('/:id/delete',requireAuth, asyncHandler((async (req, res) => {
     const question = await db.Question.findByPk(req.params.id);
     await question.destroy();
-    res.redirect('questions')
+    res.redirect('/questions')
 })));
 
 
