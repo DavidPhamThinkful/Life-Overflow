@@ -15,8 +15,8 @@ block content
       each answer in question.Answers
         div(class='answer-container')
           div(class='votes-container')
-            button(id='upvote') up
-            button(id='downvote') down
+            button(id='upvote' data-id=answer.id) up
+            button(id='downvote' data-id=answer.id) down
             span(id='upvote-number')
             span(id='downvote-number')
           div(class='answer-description-container')
