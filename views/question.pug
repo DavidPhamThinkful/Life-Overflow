@@ -9,6 +9,15 @@ block content
                 .question-div
                     a(href=`/questions/${question.id}` class='question-title')= question.title
                     p.question-data= question.description
+                    if id
+                        ul
+                            each answer in question.Answers
+                                li= answer.description
+                                if answer.userId === user.id
+                                    form(action=`/questions/${answer.id}/edit` method='GET')
+                                        button.edit-button EDIT
+                                    form(action=`/questions/${answer.id}/delete` method='POST')
+                                        button.delete-button DELETE
                     a(href='' class='category-name')= question.category
                     .question-details
                         p.answer-amount= `${question.Answers.length} Answers`
