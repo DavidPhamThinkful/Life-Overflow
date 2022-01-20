@@ -10,7 +10,7 @@ block content
     form(action=`/questions${id}` method='POST')
         input(type='hidden' name='_csrf' value=csrfToken)
         +field('Title', 'title', question.title, 'text', 'Title')
-        +field('Description', 'description', question.description, 'textarea', 'Description')
+        +field('Question', 'description', question.description, 'textarea', 'Description')
         label(for='categories') Categories
         select(name='categoryId')
             each category in categories
