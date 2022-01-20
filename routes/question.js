@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', asyncHandler((async (req, res) => {
     const questions = await db.Question.findAll({
         include: [{model: db.Answer}, {model: db.Category}, {model: db.User}]});
-    console.log(questions)
+        console.log(questions)
         res.render('question', {title:'Here is the list of questions', questions, user: res.locals.user});
 })));
 
@@ -50,8 +50,10 @@ router.post('/',requireAuth, csrfProtection, asyncHandler((async (req, res) => {
 
 
 router.get('/:id(\\d+)',requireAuth, asyncHandler((async (req, res) => {
-    const question = await db.Question.findByPk(req.params.id);
-    res.render('question', { title:'Here is your question! ANSWER OR BEGONE!',questions: [question] } );
+    const questions = [await db.Question.findOne({ where: {id: req.params.id},
+        include: [{model: db.Answer}, {model: db.Category}, {model: db.User}]})];
+        console.log(questions)
+        res.render('question', {title: 'Answer and Begone', questions, user: res.locals.user});
 })));
 
 router.get('/:id/edit',requireAuth, asyncHandler((async (req, res) =>{
