@@ -4,16 +4,18 @@ block content
     form(action='/questions/new' method='GET')
         button Ask Question
     if questions
-        each question in questions
-            .question-div
-                a(href=`/questions/${question.id}` class='question-title')= question.title
-                p.question-data= question.description
-                a(href='' class='category-name')= question.category
-                p.answer-amount= `${question.Answers.length} Answers`
-                p.question-owner= `${question.User.username}`
-                if question.userId === user.id
-                    .edit-delete-buttons
-                        form(action=`/questions/${question.id}/edit` method='GET')
-                            button.edit-button EDIT
-                        form(action=`/questions/${question.id}/delete` method='POST')
-                            button.delete-button DELETE
+        .questions-div
+            each question in questions
+                .question-div
+                    a(href=`/questions/${question.id}` class='question-title')= question.title
+                    p.question-data= question.description
+                    a(href='' class='category-name')= question.category
+                    .question-details
+                        p.answer-amount= `${question.Answers.length} Answers`
+                        p.question-owner= `${question.User.username}`
+                    if question.userId === user.id
+                        .edit-delete-buttons
+                            form(action=`/questions/${question.id}/edit` method='GET')
+                                button.edit-button EDIT
+                            form(action=`/questions/${question.id}/delete` method='POST')
+                                button.delete-button DELETE
