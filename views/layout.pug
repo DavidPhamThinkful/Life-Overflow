@@ -16,12 +16,13 @@ html
         form(action='/logout' method='post')
           button(type='submit') logout
       else
-        ul
-          li: a(href='/login' class='login') Log in
-          li: a(href='/register' class='register') Sign up
-        form(action='/demo' method='post')
-          button(type='submit' class='login') Demo User
-    
+        .users-buttons
+          form(action='/demo' method='post')
+            button(type='submit') Demo User
+          ul
+            li: a(href='/login') login
+            li: a(href='/register') Register
+
     h1= title
 
     block content
