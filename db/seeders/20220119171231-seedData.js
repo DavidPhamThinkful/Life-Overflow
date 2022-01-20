@@ -10,7 +10,7 @@ module.exports = {
       Example:
       */
         const user = await queryInterface.bulkInsert('Users', [
-            { username: 'Demo', email: 'demo@test.com', hashedPassword: 'password' },
+            { username: 'Demo', email: 'demo@test.com', hashedPassword: await bcrypt.hash('password', 10) },
             { username: 'Joe', email: 'joe@test.com', hashedPassword: await bcrypt.hash('password', 10) },
         ], { fields: ['username', 'email', 'hashedPassword'], returning: true });
 
