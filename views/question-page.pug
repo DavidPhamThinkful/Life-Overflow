@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  div.question-div
+    p= question.title
+    p.question-data= question.description
+    if user
+      if question.userId === user.id
+          .edit-delete-buttons
+              form(action=`/questions/${question.id}/edit` method='GET')
+                  button.edit-button Edit question
+              form(action=`/questions/${question.id}/delete` method='POST')
+                  button.delete-button Delete question
+    ul
+      each answer in question.Answers
+        div(class='answer-container')
+          div(class='votes-container')
+            button(id='upvote' data-id=answer.id) up
+            button(id='downvote' data-id=answer.id) down
+            span(id='upvote-number')
+            span(id='downvote-number')
+          div(class='answer-description-container')
+            p(class='answer-description')= answer.description
+              if user
+                if answer.userId === user.id
+                  form(action=`/questions/${answer.id}/edit` method='GET')
+                    button.edit-button Edit answer
+                  form(action=`/questions/${answer.id}/delete` method='POST')
+                    button.delete-button Delete answer
+    a(href=`/categories/${encodeURIComponent(question.Category.name.toLowerCase())}` class='category-name')= question.Category.name
+    div.question-details
+        p.answer-amount= `${question.Answers.length} Answers`
+        p.question-owner= `${question.User.username}`
+
