@@ -8,10 +8,13 @@ append head
 
 block content
   div(id='header-container')
-    p Where you can ask questions within a category and get answers. Or you can answer other's questions.
+    p Where you can ask questions within a category and get answers. Or you can answer others' questions.
   div(id='main-container')
-        each cat in categories
-          div(class='card')
+        div(class='card question-card')
             div(class='card-body')
-              div= cat.name
-                a(href=`/categories/${encodeURIComponent(cat.name.toLowerCase())}`) click here
+              a(href='/questions' class='category-link') Questions
+        each cat in categories
+          div(class=`card ${cat.name}`)
+            div(class='card-body')
+              a(href=`/categories/${encodeURIComponent(cat.name.toLowerCase())}` class='category-link')= cat.name
+                //- a(href=`/categories/${encodeURIComponent(cat.name.toLowerCase())}`) click here
