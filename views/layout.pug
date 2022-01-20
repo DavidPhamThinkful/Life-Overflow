@@ -8,19 +8,19 @@ html
 
   body
     nav(id='nav')
-      a(href='/') Home
+      a(href='/' id='home') life overflow
       form(action='/search')
-        input(type='search' name='query' placeholder='Search')
-        button(type='submit') Search
+        input(type='search' name='query' placeholder='Search' class='search-bar')
+        //- button(type='submit' id='search-btn') Search
       if locals.authenticated
         form(action='/logout' method='post')
           button(type='submit') logout
       else
         ul
-          li: a(href='/login') login
-          li: a(href='/register') Register
+          li: a(href='/login' class='login') Log in
+          li: a(href='/register' class='register') Sign up
         form(action='/demo' method='post')
-          button(type='submit') Demo User
+          button(type='submit' class='login') Demo User
     
     h1= title
 
