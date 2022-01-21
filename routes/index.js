@@ -71,7 +71,7 @@ const loginValidators = [
 ];
 
 router.get('/register', csrfProtection, (req, res) => {
-    res.render('register', { title: 'Register', csrfToken: req.csrfToken() });
+    res.render('register', { title: '', csrfToken: req.csrfToken() });
 });
 
 router.post('/register', csrfProtection, registerValidators, asyncHandler(async (req, res) => {
@@ -95,7 +95,7 @@ router.post('/register', csrfProtection, registerValidators, asyncHandler(async 
 }));
 
 router.get('/login', csrfProtection, (req, res) => {
-    res.render('login', { title: 'Login', csrfToken: req.csrfToken() });
+    res.render('login', { title: '', csrfToken: req.csrfToken() });
 });
 
 
