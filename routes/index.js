@@ -71,7 +71,7 @@ const loginValidators = [
 ];
 
 router.get('/register', csrfProtection, (req, res) => {
-    res.render('register', { title: 'Register', csrfToken: req.csrfToken() });
+    res.render('register', { title: '', csrfToken: req.csrfToken() });
 });
 
 router.post('/register', csrfProtection, registerValidators, asyncHandler(async (req, res) => {
@@ -95,7 +95,7 @@ router.post('/register', csrfProtection, registerValidators, asyncHandler(async 
 }));
 
 router.get('/login', csrfProtection, (req, res) => {
-    res.render('login', { title: 'Login', csrfToken: req.csrfToken() });
+    res.render('login', { title: '', csrfToken: req.csrfToken() });
 });
 
 
@@ -131,7 +131,7 @@ router.post('/logout', (req, res) => {
 router.post('/demo', asyncHandler(async (req, res) => {
     const user = await db.User.findOne({ where: { username: 'Demo' } });
     loginUser(req, user);
-    res.redirect('/');
+    res.redirect('back');
 }));
 
 router.get('/search', asyncHandler(async (req, res) => {
@@ -145,7 +145,7 @@ router.get('/search', asyncHandler(async (req, res) => {
                     },
                 },
                 {
-                    description: {
+                    body: {
                         [Sequelize.Op.iLike]: `%${query}%`,
                     },
                 },

@@ -8,7 +8,7 @@ block content
             each question in questions
                 .question-div
                     a(href=`/questions/${question.id}` class='question-title')= question.title
-                    p.question-data= question.description
+                    p.question-data= question.body
                     if user
                           if question.userId === user.id
                               .edit-delete-buttons

@@ -15,11 +15,11 @@ router.get('/', asyncHandler((async (req, res) => {
 
 router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
     const categories = await db.Category.findAll();
-    res.render('new-question', { title: 'Ask your question or forever hold your peace!!!', categories, id: '', question: { title: null, description: null }, csrfToken: req.csrfToken() });
+    res.render('new-question', { title: 'Ask your question or forever hold your peace!!!', categories, id: '', question: { title: null, body: null }, csrfToken: req.csrfToken() });
 }));
 
 router.post('/', requireAuth, csrfProtection, asyncHandler((async (req, res) => {
-    const { title, description, categoryId } = req.body;
+    const { title, body, categoryId } = req.body;
     const categories = await db.Category.findAll();
     const errors = [];
 
@@ -27,15 +27,15 @@ router.post('/', requireAuth, csrfProtection, asyncHandler((async (req, res) => 
         errors.push('Title does not fall within range of 10-255 characters!');
     }
 
-    if (description.length < 10) {
-        errors.push('Description must be within 10 characters!');
+    if (body.length < 10) {
+        errors.push('Body must be within 10 characters!');
     }
 
 
     if (!errors.length) {
         await db.Question.create({
             title,
-            description,
+            body,
             userId: req.session.auth.userId,
             categoryId,
         });
@@ -43,7 +43,7 @@ router.post('/', requireAuth, csrfProtection, asyncHandler((async (req, res) => 
         res.redirect('/questions');
     }
     else {
-        res.render('new-question', { title: 'Ask your question or forever hold your peace!!!', categories, id: '', question: { title: null, description: null }, errors, csrfToken: req.csrfToken() });
+        res.render('new-question', { title: 'Ask your question or forever hold your peace!!!', categories, id: '', question: { title: null, body: null }, errors, csrfToken: req.csrfToken() });
     }
 
 
@@ -52,23 +52,12 @@ router.post('/', requireAuth, csrfProtection, asyncHandler((async (req, res) => 
 
 router.get('/:id', asyncHandler((async (req, res) => {
     const question = await db.Question.findOne({ where: { id: req.params.id },
-        include: [{ model: db.Answer, include: [{ model: db.Vote }] }, { model: db.Category }, { model: db.User }] });
-    console.log(question.Answers);
-    console.log('===============================================================');
-    console.log(question.Answer.dataValues);
-    console.log(('====> =====> '));
-    console.log(question.Answer.Votes);
-    const UpVote = await db.Votes.findOne({ // number of up votes for answerId
-        where: {
-            [Op.and]: [
-                { answerId: req.params.id },
-                { value: true },
-            ],
-        },
-    });
+        include: [{ model: db.Answer }, { model: db.Category }, { model: db.User }] });
 
+    const user = res.locals.user;
+    const hasAnswered = await user?.hasAnswered(question.id);
 
-    res.render('question-page', { title: 'Answer and Begone', question, user: res.locals.user });
+    res.render('question-page', { title: 'Answer and Begone', question, user, hasAnswered });
 })));
 
 router.get('/:id/edit', requireAuth, csrfProtection, asyncHandler((async (req, res) =>{
@@ -79,13 +68,13 @@ router.get('/:id/edit', requireAuth, csrfProtection, asyncHandler((async (req, r
 })));
 
 router.post('/:id/edit', requireAuth, asyncHandler((async (req, res) => {
-    const { title, description, categoryId } = req.body;
+    const { title, body, categoryId } = req.body;
 
     const question = await db.Question.findByPk(req.params.id);
 
     question.title = title;
 
-    question.description = description;
+    question.body = body;
 
     question.categoryId = categoryId;
 
