@@ -131,7 +131,7 @@ router.post('/logout', (req, res) => {
 router.post('/demo', asyncHandler(async (req, res) => {
     const user = await db.User.findOne({ where: { username: 'Demo' } });
     loginUser(req, user);
-    res.redirect('/');
+    res.redirect('back');
 }));
 
 router.get('/search', asyncHandler(async (req, res) => {
@@ -145,7 +145,7 @@ router.get('/search', asyncHandler(async (req, res) => {
                     },
                 },
                 {
-                    description: {
+                    body: {
                         [Sequelize.Op.iLike]: `%${query}%`,
                     },
                 },

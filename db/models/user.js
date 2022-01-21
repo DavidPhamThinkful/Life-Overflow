@@ -22,5 +22,10 @@ module.exports = (sequelize, DataTypes) => {
         User.hasMany(models.Answer, { foreignKey: 'userId' });
         User.hasMany(models.Vote, { foreignKey: 'userId' });
     };
+    User.prototype.hasAnswered = async function(questionId) {
+        const answer = await sequelize.models.Answer.findOne({ where: { userId: this.id, questionId } });
+
+        return Boolean(answer);
+    };
     return User;
 };
