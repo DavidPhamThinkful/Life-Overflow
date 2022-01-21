@@ -2,6 +2,7 @@ const express = require('express');
 const { requireAuth } = require('../auth');
 const { csrfProtection, asyncHandler } = require('../utils');
 const db = require('../db/models');
+const { Op } = require('sequelize');
 
 const router = express.Router();
 
@@ -51,8 +52,20 @@ router.post('/', requireAuth, csrfProtection, asyncHandler((async (req, res) => 
 
 router.get('/:id', asyncHandler((async (req, res) => {
     const question = await db.Question.findOne({ where: { id: req.params.id },
-        include: [{ model: db.Answer }, { model: db.Category }, { model: db.User }] });
-    
+        include: [{ model: db.Answer, include: [{ model: db.Vote }] }, { model: db.Category }, { model: db.User }] });
+    console.log(question.Answers);
+    console.log('===============================================================');
+    console.log(question.Answer.dataValues);
+    const UpVote = await db.Votes.findOne({ // number of up votes for answerId
+        where: {
+            [Op.and]: [
+                { answerId: req.params.id },
+                { value: true },
+            ],
+        },
+    });
+
+
     res.render('question-page', { title: 'Answer and Begone', question, user: res.locals.user });
 })));
 

@@ -8,8 +8,11 @@ const downVote = document.querySelector('#downvote');
 
 upVote.addEventListener('click', async (e) => {
     e.preventDefault();
-    const answerId = upVote.dataset.id;
-    
+    const res = await fetch('/answers/:answerId(\\d+)/up', {
+        method: 'POST',
+
+    });
+
 
 });
 

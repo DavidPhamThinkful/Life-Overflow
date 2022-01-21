@@ -17,8 +17,8 @@ block content
           div(class='votes-container')
             button(id='upvote' data-id=answer.id) up
             button(id='downvote' data-id=answer.id) down
-            span(id='upvote-number')
-            span(id='downvote-number')
+            span(id='upvote-number') Up Votes
+            span(id='downvote-number') Down Votes
           div(class='answer-description-container')
             p(class='answer-description')= answer.description
               if user
