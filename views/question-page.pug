@@ -12,7 +12,7 @@ block content
               button.delete-button Delete question
     div(id='answers-container')
       each answer in question.Answers
-        div(class='answer-container')
+        div(class='answer-container' data-answer-id=answer.id)
           if user && answer.userId === user.id
             div(class='votes-container')
               button(id='upvote') up
@@ -23,7 +23,7 @@ block content
             p(class='answer-description')= answer.description
             if user && answer.userId === user.id
               button(class='edit-button' class='answer-edit-btn') Edit answer
-              button(class='delete-button' class='answer-delete-btn' data-id=answer.id) Delete answer
+              button(class='delete-button' class='answer-delete-btn' data-answer-id=answer.id) Delete answer
     a(href=`/categories/${encodeURIComponent(question.Category.name.toLowerCase())}` class='category-name')= question.Category.name
     div.question-details
         p.answer-amount= `${question.Answers.length} Answers`
