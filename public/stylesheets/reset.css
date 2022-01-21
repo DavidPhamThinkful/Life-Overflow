@@ -53,7 +53,7 @@ h1 {
 
 
 #main-container {
-  background-color: #CF1CFA;
+  background-color: #d665f2;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -142,11 +142,28 @@ h1 {
   align-items: center;
 }
 
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+  margin: 2.5%;
+  padding: 5px;
+}
+
 .card {
   width: 300px;
   height: 250px;
-  margin: 2.5%;
-  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 10px 5px 5px red;
+}
+
+.category-link {
+  font-size: 2rem;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin-bottom: 2%;
 }
 
 .question-card {
@@ -173,11 +190,13 @@ h1 {
   background-image: url('https://www.pngall.com/wp-content/uploads/1/Life-PNG-Clipart.png');
   background-size: 300px 250px;
   background-repeat: no-repeat;
+  background-color: lightskyblue;
 }
 .Death {
   background-image: url('https://myremovebg.com//static/results/1642626845616474.png');
   background-size: 300px 250px;
   background-repeat: no-repeat;
+  background-color: lightgray;
 }
 
 .category-link {
