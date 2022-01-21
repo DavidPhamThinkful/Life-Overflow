@@ -56,6 +56,8 @@ router.get('/:id', asyncHandler((async (req, res) => {
     console.log(question.Answers);
     console.log('===============================================================');
     console.log(question.Answer.dataValues);
+    console.log(('====> =====> '));
+    console.log(question.Answer.Votes);
     const UpVote = await db.Votes.findOne({ // number of up votes for answerId
         where: {
             [Op.and]: [
