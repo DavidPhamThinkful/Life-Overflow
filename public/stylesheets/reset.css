@@ -32,6 +32,7 @@ h1 {
 
 #h2 {
   font-size: 4rem;
+  margin-bottom: 2%;
 }
 
 #nav {
@@ -53,7 +54,7 @@ h1 {
 
 
 #main-container {
-  background-color: #CF1CFA;
+  background-color: #d665f2;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -84,7 +85,9 @@ h1 {
 .question-div {
   border: 2px solid black;
   margin: 2.5% 5%;
-  width: 80%;}
+  width: 80%;
+}
+
 #search-btn {
   padding: 5px;
   margin-left: 10px;
@@ -142,11 +145,28 @@ h1 {
   align-items: center;
 }
 
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+  margin: 2.5%;
+  padding: 5px;
+}
+
 .card {
   width: 300px;
   height: 250px;
-  margin: 2.5%;
-  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 10px 5px 5px red;
+}
+
+.category-link {
+  font-size: 2rem;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin-bottom: 2%;
 }
 
 .question-card {
@@ -173,36 +193,67 @@ h1 {
   background-image: url('https://www.pngall.com/wp-content/uploads/1/Life-PNG-Clipart.png');
   background-size: 300px 250px;
   background-repeat: no-repeat;
+  background-color: lightskyblue;
 }
 .Death {
   background-image: url('https://myremovebg.com//static/results/1642626845616474.png');
   background-size: 300px 250px;
   background-repeat: no-repeat;
+  background-color: lightgray;
 }
 
 .category-link {
   font-weight: bold;
 }
 
-.login-form {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-width: 100%;
-height: 100%;
-text-align: center;
-padding-top: 15%;
-
+.register-page, #login-page {
+  display: flex;
+  justify-content: center;
+  padding: 10%;
+  width: 100%;
+  height: max-content;
+  background-color: #CF1CFA;
 }
 
-.register-form{
+.register-form,
+#login-form {
 display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-width: 100%;
-height: 100%;
-text-align: center;
-padding-top: 15%;
+width: 33%;
+height: 33%;
+padding: 5% 10%;
+background-color: white;
+border-radius: 10%;
+box-shadow: 10px 5px 5px red;
+}
+
+.register-form-field, #login-form-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+#login-email, #login-password {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 2.5% 0;
+}
+
+.register-form-field div {
+  margin: 2.5% 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.input-fields {
+  margin-left: 5px;
+}
+
+.login-demo-user {
+  margin-top: 3%;
 }
