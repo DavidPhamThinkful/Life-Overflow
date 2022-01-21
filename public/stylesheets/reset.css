@@ -32,6 +32,7 @@ h1 {
 
 #h2 {
   font-size: 4rem;
+  margin-bottom: 2%;
 }
 
 #nav {
@@ -84,7 +85,9 @@ h1 {
 .question-div {
   border: 2px solid black;
   margin: 2.5% 5%;
-  width: 80%;}
+  width: 80%;
+}
+
 #search-btn {
   padding: 5px;
   margin-left: 10px;
@@ -203,25 +206,54 @@ h1 {
   font-weight: bold;
 }
 
-.login-form {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-width: 100%;
-height: 100%;
-text-align: center;
-padding-top: 15%;
-
+.register-page, #login-page {
+  display: flex;
+  justify-content: center;
+  padding: 10%;
+  width: 100%;
+  height: max-content;
+  background-color: #CF1CFA;
 }
 
-.register-form{
+.register-form,
+#login-form {
 display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-width: 100%;
-height: 100%;
-text-align: center;
-padding-top: 15%;
+width: 33%;
+height: 33%;
+padding: 5% 10%;
+background-color: white;
+border-radius: 10%;
+box-shadow: 10px 5px 5px red;
+}
+
+.register-form-field, #login-form-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+#login-email, #login-password {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 2.5% 0;
+}
+
+.register-form-field div {
+  margin: 2.5% 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.input-fields {
+  margin-left: 5px;
+}
+
+.login-demo-user {
+  margin-top: 3%;
 }
