@@ -3,7 +3,7 @@ extends layout
 block content
   div.question-div
     p= question.title
-    p.question-data= question.description
+    p.question-data= question.body
     if user && question.userId === user.id
       .edit-delete-buttons
           form(action=`/questions/${question.id}/edit` method='GET')
@@ -19,8 +19,8 @@ block content
               button(id='downvote') down
               span(id='upvote-number')
               span(id='downvote-number')
-          div(class='answer-description-container' data-answer-id=answer.id)
-            p(class='answer-description')= answer.description
+          div(class='answer-body-container' data-answer-id=answer.id)
+            p(class='answer-body')= answer.body
             if user && answer.userId === user.id
               button(class='edit-button' class='answer-edit-btn' data-answer-id=answer.id) Edit answer
               button(class='delete-button' class='answer-delete-btn' data-answer-id=answer.id) Delete answer

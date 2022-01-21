@@ -27,8 +27,8 @@ window.addEventListener('DOMContentLoaded', (event)=>{
                                 <span id="upvote-number"></span>
                                 <span id="downvote-number"></span>
                             </div>
-                            <div class="answer-description-container" data-answer-id=${id}>
-                                <p class="answer-description">${body}</p>
+                            <div class="answer-body-container" data-answer-id=${id}>
+                                <p class="answer-body">${body}</p>
                                 <button class="edit-button answer-edit-btn" data-answer-id=${id}>Edit answer</button>
                                 <button class="delete-button answer-delete-btn" data-answer-id=${id}>Delete answer</button>
                             </div>
@@ -80,9 +80,9 @@ window.addEventListener('DOMContentLoaded', (event)=>{
                 const path = window.location.pathname.split('/').filter(Boolean);
                 const questionId = path[1];
                 const answerId = btn.dataset.answerId;
-                const answerContainer = document.querySelector(`.answer-description-container[data-answer-id='${answerId}']`);
+                const answerContainer = document.querySelector(`.answer-body-container[data-answer-id='${answerId}']`);
                 const currentContainerHTML = answerContainer.innerHTML;
-                const currentBody = Array.from(answerContainer.children).find(c => c.className.includes('answer-description')).innerText;
+                const currentBody = Array.from(answerContainer.children).find(c => c.className.includes('answer-body')).innerText;
 
                 const editTextField = document.createElement('textarea');
                 editTextField.id = 'answer-body-edit';
@@ -113,7 +113,7 @@ window.addEventListener('DOMContentLoaded', (event)=>{
                         const { body, id } = await res.json();
 
                         answerContainer.innerHTML = `
-                            <p class="answer-description">${body}</p>
+                            <p class="answer-body">${body}</p>
                                 <button class="edit-button answer-edit-btn" data-answer-id=${id}>Edit answer</button>
                                 <button class="delete-button answer-delete-btn" data-answer-id=${id}>Delete answer</button>
                         `;

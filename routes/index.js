@@ -145,7 +145,7 @@ router.get('/search', asyncHandler(async (req, res) => {
                     },
                 },
                 {
-                    description: {
+                    body: {
                         [Sequelize.Op.iLike]: `%${query}%`,
                     },
                 },

@@ -8,7 +8,7 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            description: {
+            body: {
                 allowNull: false,
                 type: Sequelize.TEXT,
             },
