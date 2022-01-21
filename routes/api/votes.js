@@ -4,7 +4,7 @@ const { asyncHandler } = require('../../utils.js');
 const { Op } = require('sequelize');
 
 const router = express.Router();
-const { Votes, Answers } = db;
+const { Vote, Answers } = db;
 
 
 const answerNotFoundError = (id) => {
@@ -14,90 +14,81 @@ const answerNotFoundError = (id) => {
     return err;
 };
 
-// ! =============================================================================================
-// ! GET
-// router.get('/votes/:id(\\d+)', asyncHandler(async (req, res, next) => {
-//     const answerId = parseInt(req.params.id, 10); // answerID: 5 | userId: 3 | questionId: 3
-//     const answers = await Answers.findByPk(answerId); // vote id: 1
-
-//     if (answers) {
-//         res.status(201).json({ answers });
-//     }
-//     else {
-//         next(answerNotFoundError(answerId));
-//     }
-// }));
-
 
 // ! =============================================================================================
-// ! POST VOTE UP
+// ! POST UP VOTE
+// ! =============================================================================================
 router.post('/answers/:answerId(\\d+)/up', asyncHandler(async (req, res, next) => {
-    const answerId = req.params.id;
-    const vote = await Votes.findOne({
+    const answerId = req.params.answerId;
+
+    const vote = await Vote.findOne({
         where: {
-            [Op.and]: [
-                { answerId },
-                { userId: res.locals.user.id },
-            ],
+            answerId,
+            userId: req.session.auth.userId,
         },
     });
 
     if (vote) { // vote exists
         if (vote.value) { // user clicks same vote btn so destroy record for userID
             await vote.destroy();
-            res.status(201).json({ up: -1, down: 0 });
+            res.json({ up: -1, down: 0 });
         }
         else { // change vote status that exists per userId
             vote.value = true;
             await vote.save();
-            res.status(201).json({ up: 1, down: -1 });
+            res.json({ up: 1, down: -1 });
         }
     }
     else { // new vote created since no vote yet for userId
-        const newVote = await Votes.create({
+        const newVote = await Vote.create({
             value: true,
             userId: res.locals.user.id,
             answerId: answerId,
         });
-        res.status(201).json({ up: 1, down: 0 });
+        res.json({
+            down: 0,
+            up: 1,
+        });
     }
 }));
 
 
 // ! =============================================================================================
-// ! PUT
-router.put('/votes/:id(\\d+)', asyncHandler(async (req, res, next) => {
-    const answerId = req.params.id;
-    const userId = req.user.id;
-
-
-    if (answerId) {
-        await vote.update({ value: req.body.value });
-        res.json({ vote });
-    }
-    else {
-        next(answerNotFoundError(answerId));
-    }
-
-}));
-
-
+// ! POST DOWN VOTE
 // ! =============================================================================================
-// ! DELETE
-router.delete('/votes/:id(\\d+)', asyncHandler(async (req, res, next) => {
-    const answerId = parse(req.params.id, 10);
-    const voteId = await Answers.findByPk({});
+router.post('/answers/:answerId(\\d+)/down', asyncHandler(async (req, res, next) => {
+    const answerId = req.params.answerId;
 
+    const vote = await Vote.findOne({
+        where: {
+            answerId,
+            userId: res.locals.user.id,
+        },
+    });
 
-    if (voteId) {
-        await vote.destroy();
-        res.status(204).end();
+    if (vote) { // vote exists
+        if (vote.value) { // user clicks same vote btn so destroy record for userID
+            vote.value = false;
+            await vote.save();
+            res.json({ up: -1, down: 1 });
+        }
+        else { // change vote status that exists per userId
+            await vote.destroy();
+            res.json({ up: 0, down: -1 });
+        }
     }
-    else {
-        next(answerNotFoundError(voteId));
+    else { // new vote created since no vote yet for userId
+        const newVote = await Vote.create({
+            value: false,
+            userId: res.locals.user.id,
+            answerId: answerId,
+        });
+        res.json({
+            down: 1,
+            up: 0,
+        });
     }
 }));
-
 
 // ! =============================================================================================
 
