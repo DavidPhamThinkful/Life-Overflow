@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    form(action='/questions/new' method='GET')
+        button Ask Question
+    if questions
+        .questions-div
+            each question in questions
+                .question-div
+                    a(href=`/questions/${question.id}` class='question-title')= question.title
+                    p.question-data= question.description
+                    if user
+                          if question.userId === user.id
+                              .edit-delete-buttons
+                                  form(action=`/questions/${question.id}/edit` method='GET')
+                                      button.edit-button Edit question
+                                  form(action=`/questions/${question.id}/delete` method='POST')
+                                      button.delete-button Delete question
