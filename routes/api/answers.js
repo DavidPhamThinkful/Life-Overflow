@@ -18,7 +18,15 @@ router.post('/questions/:questionId(\\d+)/answers', asyncHandler(async (req, res
 }));
 
 router.put('/answers/:id(\\d+)', asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const answer = await db.Answer.findByPk(id);
+    const { body } = req.body;
 
+    if (answer) {
+        answer.description = body;
+        await answer.save();
+        res.json({ body, id });
+    }
 }));
 
 router.delete('/answers/:id(\\d+)', asyncHandler(async (req, res) => {

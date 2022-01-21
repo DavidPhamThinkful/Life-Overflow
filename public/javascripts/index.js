@@ -1,8 +1,8 @@
 window.addEventListener('DOMContentLoaded', (event)=>{
-    const addAnswerSubmitEvent = () => {
+    const addAnswerCreateEvent = () => {
         const answerSubmit = document.getElementById('answer-submit');
         if (answerSubmit) {
-            answerSubmit.addEventListener('click', async e => {
+            answerSubmit.addEventListener('click', async () => {
                 const answer = document.getElementById('answer-body');
                 const questionId = answer.dataset.questionId;
                 const body = answer.value;
@@ -19,36 +19,37 @@ window.addEventListener('DOMContentLoaded', (event)=>{
                     const container = document.getElementById('answers-container');
                     const answerDiv = document.createElement('div');
                     const { body, id } = await res.json();
-                    answerDiv.innerHTML +=
-                `
-                    <div class="answer-container" data-answer-id=${id}>
-                        <div class="votes-container">
-                            <button id="upvote">up</button>
-                            <button id="downvote">down</button>
-                            <span id="upvote-number"></span>
-                            <span id="downvote-number"></span>
+                    answerDiv.innerHTML += `
+                        <div class="answer-container" data-answer-id=${id}>
+                            <div class="votes-container">
+                                <button id="upvote">up</button>
+                                <button id="downvote">down</button>
+                                <span id="upvote-number"></span>
+                                <span id="downvote-number"></span>
+                            </div>
+                            <div class="answer-description-container" data-answer-id=${id}>
+                                <p class="answer-description">${body}</p>
+                                <button class="edit-button answer-edit-btn" data-answer-id=${id}>Edit answer</button>
+                                <button class="delete-button answer-delete-btn" data-answer-id=${id}>Delete answer</button>
+                            </div>
                         </div>
-                        <div class="answer-description-container">
-                            <p class="answer-description">${body}</p>
-                            <button class="edit-button answer-edit-btn">Edit answer</button>
-                            <button class="delete-button answer-delete-btn" data-answer-id=${id}>Delete answer</button>
-                        </div>
-                    </div>
-                `;
+                    `;
                     container.appendChild(answerDiv);
 
                     answerSubmit.remove();
                     answer.remove();
-                    addDeleteButtonEvent();
+
+                    addAnswerEditEvent();
+                    addAnswerDeleteEvent();
                 }
             });
         }
     };
 
-    const addDeleteButtonEvent = () => {
+    const addAnswerDeleteEvent = () => {
         const deleteAnswerBtns = document.querySelectorAll('.answer-delete-btn');
         deleteAnswerBtns.forEach(btn => {
-            btn.addEventListener('click', async e => {
+            btn.addEventListener('click', async () => {
                 const path = window.location.pathname.split('/').filter(Boolean);
                 const questionId = path[1];
                 const answerId = btn.dataset.answerId;
@@ -66,30 +67,72 @@ window.addEventListener('DOMContentLoaded', (event)=>{
                         <button type="submit" id="answer-submit">Post Your Answer</button>
                     `;
 
-                    addAnswerSubmitEvent();
+                    addAnswerCreateEvent();
                 }
             });
         });
     };
 
-    addAnswerSubmitEvent();
-    addDeleteButtonEvent();
+    const addAnswerEditEvent = () => {
+        const editAnswerBtns = document.querySelectorAll('.answer-edit-btn');
+        editAnswerBtns.forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const path = window.location.pathname.split('/').filter(Boolean);
+                const questionId = path[1];
+                const answerId = btn.dataset.answerId;
+                const answerContainer = document.querySelector(`.answer-description-container[data-answer-id='${answerId}']`);
+                const currentContainerHTML = answerContainer.innerHTML;
+                const currentBody = Array.from(answerContainer.children).find(c => c.className.includes('answer-description')).innerText;
 
-    const upVote = document.querySelector('#upvote');
-    const downVote = document.querySelector('#downvote');
+                const editTextField = document.createElement('textarea');
+                editTextField.id = 'answer-body-edit';
+                editTextField.setAttribute('rows', '5');
+                editTextField.setAttribute('cols', '50');
+                editTextField.dataset.questionId = questionId;
+                editTextField.innerText = currentBody;
+                const editSubmitBtn = document.createElement('button');
+                editSubmitBtn.innerText = 'Confirm Edit';
+                const cancelSubmitBtn = document.createElement('button');
+                cancelSubmitBtn.innerText = 'Cancel';
 
-    upVote.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const answerId = upVote.dataset.id;
+                btn.remove();
+                answerContainer.replaceChildren(editTextField, editSubmitBtn, cancelSubmitBtn);
 
+                editSubmitBtn.addEventListener('click', async () => {
+                    const body = editTextField.value;
 
-    });
+                    const res = await fetch(`/api/answers/${answerId}`, {
+                        method: 'PUT',
+                        body: JSON.stringify({ body }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
 
+                    if (res.ok) {
+                        const { body, id } = await res.json();
 
-    downVote.addEventListener('click', async (e) => {
+                        answerContainer.innerHTML = `
+                            <p class="answer-description">${body}</p>
+                                <button class="edit-button answer-edit-btn" data-answer-id=${id}>Edit answer</button>
+                                <button class="delete-button answer-delete-btn" data-answer-id=${id}>Delete answer</button>
+                        `;
 
-        console.log('DOWNVOTE <- <-', downVote.dataset.id);
+                        addAnswerEditEvent();
+                        addAnswerDeleteEvent();
+                    }
+                });
 
+                cancelSubmitBtn.addEventListener('click', () => {
+                    answerContainer.innerHTML = currentContainerHTML;
+                    addAnswerEditEvent();
+                    addAnswerDeleteEvent();
+                });
+            });
+        });
+    };
 
-    });
+    addAnswerCreateEvent();
+    addAnswerEditEvent();
+    addAnswerDeleteEvent();
 });
