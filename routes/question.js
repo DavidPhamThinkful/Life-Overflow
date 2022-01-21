@@ -52,8 +52,11 @@ router.post('/', requireAuth, csrfProtection, asyncHandler((async (req, res) => 
 router.get('/:id', asyncHandler((async (req, res) => {
     const question = await db.Question.findOne({ where: { id: req.params.id },
         include: [{ model: db.Answer }, { model: db.Category }, { model: db.User }] });
-    
-    res.render('question-page', { title: 'Answer and Begone', question, user: res.locals.user });
+
+    const user = res.locals.user;
+    const hasAnswered = await user?.hasAnswered(question.id);
+
+    res.render('question-page', { title: 'Answer and Begone', question, user, hasAnswered });
 })));
 
 router.get('/:id/edit', requireAuth, csrfProtection, asyncHandler((async (req, res) =>{
