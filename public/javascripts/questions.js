@@ -86,12 +86,20 @@ window.addEventListener('DOMContentLoaded', async ()=>{
         if (isUser) {
             const upvoteBtn = document.createElement('button');
             upvoteBtn.classList.add('btn');
+            upvoteBtn.classList.add('upvote-btn');
             upvoteBtn.dataset.value = 'up';
             upvoteBtn.innerText = 'Up';
             const downvoteBtn = document.createElement('button');
             downvoteBtn.classList.add('btn');
+            downvoteBtn.classList.add('downvote-btn');
             downvoteBtn.dataset.value = 'down';
             downvoteBtn.innerText = 'Down';
+
+            const vote = answer.votes.find(vote => vote.userId === userId);
+
+            if (vote) {
+                vote.value ? upvoteBtn.classList.add('voted') : downvoteBtn.classList.add('voted');
+            }
 
             votesContainer.append(upvoteBtn, downvoteBtn);
         }
@@ -196,15 +204,28 @@ window.addEventListener('DOMContentLoaded', async ()=>{
         createAnswerElements(answer);
     });
 
-    // ! =================================================================
-    // !  UP VOTES
-    // ! =================================================================
     const voteContainer = document.querySelector('#votes-container');
     voteContainer.addEventListener('click', async (e) => {
         if (e.target.tagName !== 'BUTTON') return;
 
         const answerId = voteContainer.dataset.answerId;
         const value = e.target.dataset.value === 'up';
+
+        const upvoteBtn = Array.from(voteContainer.children).find(child => child.classList.contains('upvote-btn'));
+        const downvoteBtn = Array.from(voteContainer.children).find(child => child.classList.contains('downvote-btn'));
+
+        if (e.target === upvoteBtn) {
+            upvoteBtn.classList.toggle('voted');
+
+            if (downvoteBtn.classList.contains('voted')) downvoteBtn.classList.remove('voted');
+
+        }
+        else if (e.target === downvoteBtn) {
+            downvoteBtn.classList.toggle('voted');
+
+            if (upvoteBtn.classList.contains('voted')) upvoteBtn.classList.remove('voted');
+        }
+
 
         const res = await fetch(`/api/answers/${answerId}/votes`, {
             method: 'PUT',
@@ -222,26 +243,4 @@ window.addEventListener('DOMContentLoaded', async ()=>{
             Array.from(voteContainer.children).find(child => child.classList.contains('downvote-counter')).innerText = downvoteCounter;
         }
     });
-
-    // ! =================================================================
-    // !  DOWN VOTES
-    // ! =================================================================
-    // const downVote = document.querySelector('#downvote');
-    // downVote.addEventListener('click', async (e) => {
-    //     e.preventDefault();
-
-    //     const answerId = downVote.dataset.answerId;
-    //     const voteValue = downVote.value;
-
-    //     const res = await fetch(`/api/answers/${answerId}/down`, {
-    //         method: 'POST',
-    //         body: JSON.stringify({ voteValue }),
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //     });
-    // });
-    // ! =================================================================
-    // !  END VOTES
-    // ! =================================================================
 });

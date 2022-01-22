@@ -174,27 +174,32 @@ h1 {
   background-size: 300px 250px;
   background-repeat: no-repeat;
 }
+
 .Family {
   background-image: url('https://compass-ssl.microsoft.com/assets/fe/5b/fe5b766b-2852-4866-8dcb-fc93763fad6e.png?n=FamilyHeroAnim2_poster_trimmed.png');
   background-size: 300px 250px;
   background-repeat: no-repeat;
 }
+
 .Friends {
   background-image: url('https://clipartix.com/wp-content/uploads/2018/01/Friends-clipart-free-download-clip-art-on.jpg');
   background-size: 300px 250px;
   background-repeat: no-repeat;
 }
+
 .Romance {
   background-image: url('https://www.pngkit.com/png/detail/171-1719776_romance-clipart-romantic-clipart.png');
   background-size: 300px 250px;
   background-repeat: no-repeat;
 }
+
 .Life {
   background-image: url('https://www.pngall.com/wp-content/uploads/1/Life-PNG-Clipart.png');
   background-size: 300px 250px;
   background-repeat: no-repeat;
   background-color: lightskyblue;
 }
+
 .Death {
   background-image: url('https://myremovebg.com//static/results/1642626845616474.png');
   background-size: 300px 250px;
@@ -217,16 +222,16 @@ h1 {
 
 .register-form,
 #login-form {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-width: 33%;
-height: 33%;
-padding: 5% 10%;
-background-color: white;
-border-radius: 10%;
-box-shadow: 10px 5px 5px red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 33%;
+  height: 33%;
+  padding: 5% 10%;
+  background-color: white;
+  border-radius: 10%;
+  box-shadow: 10px 5px 5px red;
 }
 
 .register-form-field, #login-form-field {
@@ -256,4 +261,12 @@ box-shadow: 10px 5px 5px red;
 
 .login-demo-user {
   margin-top: 3%;
+}
+
+.upvote-btn.voted {
+  background-color: #C1E1C1;
+}
+
+.downvote-btn.voted {
+  background-color: #FAA0A0;
 }

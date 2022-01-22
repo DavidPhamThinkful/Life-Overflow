@@ -20,6 +20,7 @@ router.get('/answers/:id(\\d+)', asyncHandler(async (req, res) => {
         userId: answer.userId,
         questionId: answer.questionId,
         body: answer.body,
+        votes,
         upvoteCounter,
         downvoteCounter,
     };
@@ -47,6 +48,7 @@ router.get('/questions/:questionId(\\d+)/answers', asyncHandler(async (req, res)
             userId: answer.userId,
             questionId: answer.questionId,
             body: answer.body,
+            votes,
             upvoteCounter,
             downvoteCounter,
         };
