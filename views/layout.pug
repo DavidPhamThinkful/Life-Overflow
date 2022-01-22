@@ -7,22 +7,27 @@ html
         script(src="/javascripts/index.js" type="module" defer)
 
   body
-    nav(id='nav')
-      .app-details
-        img(src='/favicon.ico' class="fas fa-hand-holding-heart" alt='icon')
-        a(href='/' id='home') life overflow
-      form(action='/search')
-        input(type='search' name='query' placeholder='Search' class='search-bar')
-        //- button(type='submit' id='search-btn') Search
-      if locals.authenticated
-        form(action='/logout' method='post')
-          button(type='submit' class='login') Logout
-      else
-        ul
-          li: a(href='/login' class='login') Log in
-          li: a(href='/register' class='register') Sign up
-        form(action='/demo' method='post')
-          button(type='submit' class='login') Demo User
+    div(class='nav-container')
+      nav(id='nav')
+        div(id='left-nav')
+          div
+            img(src='/favicon.ico' class="fas fa-hand-holding-heart" alt='icon')
+            a(href='/' id='home') life overflow
+          form(action='/questions/new' method='GET')
+            button(class='btn btn-light') Ask Question
+        div(id='middle-nav')
+          form(action='/search' class='search-bar')
+            input(type='search' name='query' placeholder='Search' )
+        div(id='right-nav')
+          if locals.authenticated
+            span Welcome #{locals.user.username}
+            form(action='/logout' method='post')
+              button(type='submit' class='btn btn-dark') Logout
+          else
+            a(href='/login' class='btn btn-light') Log in
+            a(href='/register' class='btn btn-dark') Sign up
+            form(action='/demo' method='post')
+              button(type='submit' class='btn btn-light') Demo User
 
     h1= title
 
