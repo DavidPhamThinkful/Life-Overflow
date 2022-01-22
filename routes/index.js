@@ -153,7 +153,7 @@ router.get('/search', asyncHandler(async (req, res) => {
         },
     });
 
-    res.render('search', { title: query, questions });
+    res.render('search', { title: `Results for "${query}"`, questions });
 }));
 
 module.exports = router;

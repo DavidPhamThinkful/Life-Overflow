@@ -79,25 +79,29 @@ window.addEventListener('DOMContentLoaded', async ()=>{
         answerContainer.classList.add('answer-container');
         answerContainer.dataset.answerId = answer.id;
 
-        const votesContainer = document.createElement('votes-container');
+        const votesContainer = document.createElement('div');
+        votesContainer.id = 'votes-container';
+        votesContainer.dataset.answerId = answer.id;
 
         if (isUser) {
             const upvoteBtn = document.createElement('button');
             upvoteBtn.classList.add('btn');
+            upvoteBtn.dataset.value = 'up';
             upvoteBtn.innerText = 'Up';
             const downvoteBtn = document.createElement('button');
             downvoteBtn.classList.add('btn');
+            downvoteBtn.dataset.value = 'down';
             downvoteBtn.innerText = 'Down';
 
             votesContainer.append(upvoteBtn, downvoteBtn);
         }
 
         const upvoteCounter = document.createElement('span');
-        upvoteCounter.classList.add('vote-counter');
-        upvoteCounter.innerText = `up: ${answer.upvoteCounter}`;
+        upvoteCounter.classList.add('upvote-counter');
+        upvoteCounter.innerText = answer.upvoteCounter;
         const downvoteCounter = document.createElement('span');
-        downvoteCounter.classList.add('vote-counter');
-        downvoteCounter.innerText = `down: ${answer.downvoteCounter}`;
+        downvoteCounter.classList.add('downvote-counter');
+        downvoteCounter.innerText = answer.downvoteCounter;
         votesContainer.append(upvoteCounter, downvoteCounter);
 
         const bodyContainer = document.createElement('div');
@@ -191,4 +195,53 @@ window.addEventListener('DOMContentLoaded', async ()=>{
     answers.forEach(answer => {
         createAnswerElements(answer);
     });
+
+    // ! =================================================================
+    // !  UP VOTES
+    // ! =================================================================
+    const voteContainer = document.querySelector('#votes-container');
+    voteContainer.addEventListener('click', async (e) => {
+        if (e.target.tagName !== 'BUTTON') return;
+
+        const answerId = voteContainer.dataset.answerId;
+        const value = e.target.dataset.value === 'up';
+
+        const res = await fetch(`/api/answers/${answerId}/votes`, {
+            method: 'PUT',
+            body: JSON.stringify({ value }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (res.ok) {
+            const res = await fetch(`/api/answers/${answerId}`);
+            const { upvoteCounter, downvoteCounter } = (await res.json()).answer;
+
+            Array.from(voteContainer.children).find(child => child.classList.contains('upvote-counter')).innerText = upvoteCounter;
+            Array.from(voteContainer.children).find(child => child.classList.contains('downvote-counter')).innerText = downvoteCounter;
+        }
+    });
+
+    // ! =================================================================
+    // !  DOWN VOTES
+    // ! =================================================================
+    // const downVote = document.querySelector('#downvote');
+    // downVote.addEventListener('click', async (e) => {
+    //     e.preventDefault();
+
+    //     const answerId = downVote.dataset.answerId;
+    //     const voteValue = downVote.value;
+
+    //     const res = await fetch(`/api/answers/${answerId}/down`, {
+    //         method: 'POST',
+    //         body: JSON.stringify({ voteValue }),
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //     });
+    // });
+    // ! =================================================================
+    // !  END VOTES
+    // ! =================================================================
 });
