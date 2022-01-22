@@ -11,9 +11,9 @@ block content
                     a(href=`/questions/${question.id}` class='question-title')= question.title
                     p.question-data= question.body
                     if user
-                          if question.userId === user.id
-                              .edit-delete-buttons
-                                  form(action=`/questions/${question.id}/edit` method='GET')
-                                      button.edit-button Edit question
-                                  form(action=`/questions/${question.id}/delete` method='POST')
-                                      button.delete-button Delete question
+                        if question.userId === user.id
+                            .edit-delete-buttons
+                                form(action=`/questions/${question.id}/edit` method='GET')
+                                    button.edit-button Edit question
+                                form(action=`/questions/${question.id}/delete` method='POST')
+                                    button.delete-button Delete question
