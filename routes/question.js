@@ -2,6 +2,7 @@ const express = require('express');
 const { requireAuth } = require('../auth');
 const { csrfProtection, asyncHandler } = require('../utils');
 const db = require('../db/models');
+const { Op } = require('sequelize');
 
 const router = express.Router();
 

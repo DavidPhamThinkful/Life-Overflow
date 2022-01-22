@@ -1,10 +1,10 @@
-extends layout.pug 
+extends layout.pug
 
 block content
   img(src=image)
   if questions.length
     each question in questions
       div=question.title
-        p= question.body
+        p=question.body
   else
     p No questions have been posted yet.
