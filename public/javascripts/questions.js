@@ -6,16 +6,19 @@ window.addEventListener('DOMContentLoaded', async ()=>{
     const isUser = dataset.isUser === 'true';
     const userId = parseInt(dataset.userId) || undefined;
 
+    // Checks if user has already answered the question
     const hasAnswered = async (userId) => {
         const res = await fetch(`/api/questions/${questionId}/answers`);
         const { answers } = await res.json();
         return answers.some(answer => answer.userId === userId);
     };
 
+    // Checks if user is the owner of the question
     const isOwner = () => {
         return userId === ownerId;
     };
 
+    // Creates a answer creation form
     const createAnswerForm = () => {
         const questionContainer = document.querySelector('.question-div');
         const formContainer = document.createElement('div');
@@ -52,11 +55,13 @@ window.addEventListener('DOMContentLoaded', async ()=>{
 
     };
 
+    // Removes the answer creation form
     const removeAnswerForm = () => {
         const formContainer = document.getElementById('answer-form-container');
         formContainer.remove();
     };
 
+    // Updates the answer counter dynamically
     const updateAnswerCounter = async () => {
         const answerCounter = document.querySelector('.answer-amount');
 
@@ -70,17 +75,14 @@ window.addEventListener('DOMContentLoaded', async ()=>{
         }
     };
 
-    if (isUser && !await hasAnswered(userId) && !isOwner()) {
-        createAnswerForm();
-    }
-
+    // Creates the necessarily elements for an answer
     const createAnswerElements = (answer) => {
         const answerContainer = document.createElement('div');
         answerContainer.classList.add('answer-container');
         answerContainer.dataset.answerId = answer.id;
 
         const votesContainer = document.createElement('div');
-        votesContainer.id = 'votes-container';
+        votesContainer.classList.add('votes-container');
         votesContainer.dataset.answerId = answer.id;
 
         if (isUser) {
@@ -95,7 +97,7 @@ window.addEventListener('DOMContentLoaded', async ()=>{
             downvoteBtn.dataset.value = 'down';
             downvoteBtn.innerText = 'Down';
 
-            const vote = answer.votes.find(vote => vote.userId === userId);
+            const vote = answer.votes?.find(vote => vote.userId === userId);
 
             if (vote) {
                 vote.value ? upvoteBtn.classList.add('voted') : downvoteBtn.classList.add('voted');
@@ -111,6 +113,7 @@ window.addEventListener('DOMContentLoaded', async ()=>{
         downvoteCounter.classList.add('downvote-counter');
         downvoteCounter.innerText = answer.downvoteCounter;
         votesContainer.append(upvoteCounter, downvoteCounter);
+        addVotingEvent(votesContainer);
 
         const bodyContainer = document.createElement('div');
         bodyContainer.classList.add('answer-body-container');
@@ -195,6 +198,52 @@ window.addEventListener('DOMContentLoaded', async ()=>{
         answersContainer.append(answerContainer);
     };
 
+    // Adds the click event to vote buttons
+    const addVotingEvent = (voteContainer) => {
+        voteContainer.addEventListener('click', async (e) => {
+            if (e.target.tagName !== 'BUTTON') return;
+
+            const answerId = voteContainer.dataset.answerId;
+            const value = e.target.dataset.value === 'up';
+
+            const upvoteBtn = Array.from(voteContainer.children).find(child => child.classList.contains('upvote-btn'));
+            const downvoteBtn = Array.from(voteContainer.children).find(child => child.classList.contains('downvote-btn'));
+
+            if (e.target === upvoteBtn) {
+                upvoteBtn.classList.toggle('voted');
+
+                if (downvoteBtn.classList.contains('voted')) downvoteBtn.classList.remove('voted');
+
+            }
+            else if (e.target === downvoteBtn) {
+                downvoteBtn.classList.toggle('voted');
+
+                if (upvoteBtn.classList.contains('voted')) upvoteBtn.classList.remove('voted');
+            }
+
+
+            const res = await fetch(`/api/answers/${answerId}/votes`, {
+                method: 'PUT',
+                body: JSON.stringify({ value }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (res.ok) {
+                const res = await fetch(`/api/answers/${answerId}`);
+                const { upvoteCounter, downvoteCounter } = (await res.json()).answer;
+
+                Array.from(voteContainer.children).find(child => child.classList.contains('upvote-counter')).innerText = upvoteCounter;
+                Array.from(voteContainer.children).find(child => child.classList.contains('downvote-counter')).innerText = downvoteCounter;
+            }
+        });
+    };
+
+    // Renders the answer creating form only if the user is logged in, doesn't own the question, and had never answered the question
+    if (isUser && !await hasAnswered(userId) && !isOwner()) {
+        createAnswerForm();
+    }
 
     const res = await fetch(`/api/questions/${questionId}/answers`);
     const { answers } = await res.json();
@@ -202,45 +251,5 @@ window.addEventListener('DOMContentLoaded', async ()=>{
 
     answers.forEach(answer => {
         createAnswerElements(answer);
-    });
-
-    const voteContainer = document.querySelector('#votes-container');
-    voteContainer.addEventListener('click', async (e) => {
-        if (e.target.tagName !== 'BUTTON') return;
-
-        const answerId = voteContainer.dataset.answerId;
-        const value = e.target.dataset.value === 'up';
-
-        const upvoteBtn = Array.from(voteContainer.children).find(child => child.classList.contains('upvote-btn'));
-        const downvoteBtn = Array.from(voteContainer.children).find(child => child.classList.contains('downvote-btn'));
-
-        if (e.target === upvoteBtn) {
-            upvoteBtn.classList.toggle('voted');
-
-            if (downvoteBtn.classList.contains('voted')) downvoteBtn.classList.remove('voted');
-
-        }
-        else if (e.target === downvoteBtn) {
-            downvoteBtn.classList.toggle('voted');
-
-            if (upvoteBtn.classList.contains('voted')) upvoteBtn.classList.remove('voted');
-        }
-
-
-        const res = await fetch(`/api/answers/${answerId}/votes`, {
-            method: 'PUT',
-            body: JSON.stringify({ value }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (res.ok) {
-            const res = await fetch(`/api/answers/${answerId}`);
-            const { upvoteCounter, downvoteCounter } = (await res.json()).answer;
-
-            Array.from(voteContainer.children).find(child => child.classList.contains('upvote-counter')).innerText = upvoteCounter;
-            Array.from(voteContainer.children).find(child => child.classList.contains('downvote-counter')).innerText = downvoteCounter;
-        }
     });
 });
