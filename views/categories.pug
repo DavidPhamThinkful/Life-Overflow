@@ -1,10 +1,21 @@
 extends layout.pug
 
 block content
-  img(src=image)
-  if questions.length
-    each question in questions
-      div=question.title
-        p=question.body
-  else
-    p No questions have been posted yet.
+  div.category-page
+    img(src=image id='image')
+    if questions.length
+      each question in questions
+        div.questions-answers
+          a(href=`/questions/${question.id}` class='question-title')= question.title
+          p.question-data= question.body
+          if user && question.userId === user.id
+          .edit-delete-buttons
+            form(action=`/questions/${question.id}/edit` method='GET')
+                button.edit-button Edit question
+            form(action=`/questions/${question.id}/delete` method='POST')
+                button.delete-button Delete question
+    else
+      div.no-questions
+        p No questions have been posted yet!
+
+ 
