@@ -11,6 +11,6 @@ block content
                     if user && question.userId === user.id
                             .edit-delete-buttons
                                 form(action=`/questions/${question.id}/edit` method='GET')
-                                    button.edit-button Edit question
+                                    button.btn Edit question
                                 form(action=`/questions/${question.id}/delete` method='POST')
-                                    button.delete-button Delete question
+                                    button.btn Delete question
