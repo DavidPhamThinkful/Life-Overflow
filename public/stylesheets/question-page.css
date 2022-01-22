@@ -1,20 +1,20 @@
-.question-container, #answers-container {
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.question-container, #answers-container, #answer-form-container {
   width: 750px;
   height: 100%;
-  margin: 0 auto;
   padding: 50px;
+  margin-bottom: 50px;
   border: 1px solid rgba(245, 245, 245, 0.2)
 }
 
 .question-container {
   margin-top: 75px;
-  margin-bottom: 0;
   position: relative;
-}
-
-#answers-container {
-  margin-top: 55px;
-  margin-bottom: 50px;
 }
 
 .question-details p {
@@ -63,17 +63,20 @@
   text-align: center;
 }
 
+.votes-container span:first-of-type {
+  padding-bottom: 5px;
+}
+
 .answer-container {
   display: grid;
   grid-template-columns: min-content auto;
   gap: 10px;
   margin-top: 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25)
 }
 
 .answer-body {
   padding: 0 20px;
-  min-height: 125px;
+  min-height: 150px;
 }
 
 .upvote-btn, .downvote-btn {
@@ -94,4 +97,15 @@ svg path {
 
 .downvote-btn.voted svg path {
   fill: #FAA0A0;
+}
+
+textarea {
+  width: 100%;
+  height: 200px;
+  border: 5px solid gray;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: right;
 }

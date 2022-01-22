@@ -9,20 +9,21 @@ block content
     data(id='data' data-is-user='true' data-user-id=user.id data-owner-id=question.userId)
   else
     data(id='data' data-is-user='false')
-  div.question-container
-    div.question-header
-      h2.question-title= question.title
-      div.question-category 
-        span Category:
-        a(href=`/categories/${encodeURIComponent(question.Category.name.toLowerCase())}` class='category-name')= question.Category.name
-    p.question-body= question.body
-    if user && question.userId === user.id
-      .edit-delete-buttons
-          form(action=`/questions/${question.id}/edit` method='GET')
-              button.btn Edit question
-          form(action=`/questions/${question.id}/delete` method='POST')
-              button.btn Delete question
-    div.question-details
-        p.answer-amount= `${question.Answers.length} Answers`
-        p.question-owner= `Author: ${question.User.username}`
-  div(id='answers-container')
+  div.main-container
+    div.question-container
+      div.question-header
+        h2.question-title= question.title
+        div.question-category 
+          span Category:
+          a(href=`/categories/${encodeURIComponent(question.Category.name.toLowerCase())}` class='category-name')= question.Category.name
+      p.question-body= question.body
+      if user && question.userId === user.id
+        .edit-delete-buttons
+            form(action=`/questions/${question.id}/edit` method='GET')
+                button.btn Edit question
+            form(action=`/questions/${question.id}/delete` method='POST')
+                button.btn Delete question
+      div.question-details
+          p.answer-amount= `${question.Answers.length} Answers`
+          p.question-owner= `Author: ${question.User.username}`
+    div(id='answers-container')

@@ -48,6 +48,10 @@ h1 {
   cursor: unset;
 }
 
+textarea {
+  resize: none;
+}
+
 #h2 {
   font-size: 4rem;
   margin-bottom: 2%;
