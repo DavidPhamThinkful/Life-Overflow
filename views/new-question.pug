@@ -6,13 +6,17 @@ block content
     if errors
         each error in errors
             p= error
-
-    form(action=`/questions${id}` method='POST')
-        input(type='hidden' name='_csrf' value=csrfToken)
-        +field('Title', 'title', question.title, 'text', 'Title')
-        +field('Question', 'body', question.body, 'textarea', 'Body')
-        label(for='categories') Categories
-        select(name='categoryId')
-            each category in categories
-                option(value=category.id)= category.name
-        button.btn Submit
+    .register-page
+        .register-form
+            form(class='register-form-field' action=`/questions${id}` method='POST')
+                input(type='hidden' name='_csrf' value=csrfToken)
+                #login-email
+                    +field('Title', 'title', question.title, 'text', 'Title')
+                #login-email
+                    +field('Question', 'body', question.body, 'textarea', 'Body')
+                #login-email
+                    label(for='categories') Categories
+                    select(name='categoryId')
+                        each category in categories
+                            option(value=category.id)= category.name
+                button.btn Submit

@@ -129,13 +129,16 @@ router.post('/logout', (req, res) => {
 });
 
 router.post('/demo', asyncHandler(async (req, res) => {
-    const user = await db.User.findOne({ where: { username: 'Demo' } });
+    const user = await db.User.findOne({ where: { username: 'JusticeCouple' } });
     loginUser(req, user);
     res.redirect('/');
 }));
 
 router.get('/search', asyncHandler(async (req, res) => {
     const { query } = req.query;
+    if (query === '') {
+        return res.render('search', { title: 'Nothing was entered in search bar.', questions: [] });
+    }
     const questions = await db.Question.findAll({
         where: {
             [Sequelize.Op.or]: [
