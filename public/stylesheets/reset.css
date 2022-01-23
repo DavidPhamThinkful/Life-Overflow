@@ -343,3 +343,8 @@ color: black;
   display: flex;
   justify-content: center;
 }
+
+#not-found {
+  display: flex;
+  justify-content: center;
+}
