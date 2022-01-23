@@ -20,15 +20,17 @@ window.addEventListener('DOMContentLoaded', async ()=>{
 
     // Creates a answer creation form
     const createAnswerForm = () => {
-        const questionContainer = document.querySelector('.question-div');
         const formContainer = document.createElement('div');
         formContainer.id = 'answer-form-container';
         const textarea = document.createElement('textarea');
         textarea.id = 'answer-body';
-        textarea.setAttribute('rows', '5');
-        textarea.setAttribute('cols', '50');
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('btn-container');
+
         const button = document.createElement('button');
         button.id = 'answer-submit';
+        button.classList.add('btn');
         button.innerText = 'Post Your Answer';
 
         button.addEventListener('click', async () => {
@@ -50,9 +52,9 @@ window.addEventListener('DOMContentLoaded', async ()=>{
             }
         });
 
-        formContainer.append(textarea, button);
-        questionContainer.appendChild(formContainer);
-
+        buttonContainer.appendChild(button);
+        formContainer.append(textarea, buttonContainer);
+        document.querySelector('.main-container').appendChild(formContainer);
     };
 
     // Removes the answer creation form
@@ -85,26 +87,19 @@ window.addEventListener('DOMContentLoaded', async ()=>{
         votesContainer.classList.add('votes-container');
         votesContainer.dataset.answerId = answer.id;
 
-        if (isUser) {
-            const upvoteBtn = document.createElement('button');
-            upvoteBtn.classList.add('btn');
-            upvoteBtn.classList.add('upvote-btn');
-            upvoteBtn.dataset.value = 'up';
-            upvoteBtn.innerText = 'Up';
-            const downvoteBtn = document.createElement('button');
-            downvoteBtn.classList.add('btn');
-            downvoteBtn.classList.add('downvote-btn');
-            downvoteBtn.dataset.value = 'down';
-            downvoteBtn.innerText = 'Down';
+        const upvoteBtn = document.createElement('button');
+        upvoteBtn.classList.add('btn');
+        upvoteBtn.classList.add('upvote-btn');
+        upvoteBtn.dataset.value = 'up';
+        upvoteBtn.disabled = true;
+        upvoteBtn.innerHTML = '<svg aria-hidden="true" class="svg-icon iconArrowUpLg" width="36" height="36" viewBox="0 0 36 36"><path d="M2 25h32L18 9 2 25Z"></path></svg>';
+        const downvoteBtn = document.createElement('button');
+        downvoteBtn.classList.add('btn');
+        downvoteBtn.classList.add('downvote-btn');
+        downvoteBtn.dataset.value = 'down';
+        downvoteBtn.disabled = true;
+        downvoteBtn.innerHTML = '<svg aria-hidden="true" class="svg-icon iconArrowDownLg" width="36" height="36" viewBox="0 0 36 36"><path d="M2 11h32L18 27 2 11Z"></path></svg>';
 
-            const vote = answer.votes?.find(vote => vote.userId === userId);
-
-            if (vote) {
-                vote.value ? upvoteBtn.classList.add('voted') : downvoteBtn.classList.add('voted');
-            }
-
-            votesContainer.append(upvoteBtn, downvoteBtn);
-        }
 
         const upvoteCounter = document.createElement('span');
         upvoteCounter.classList.add('upvote-counter');
@@ -112,7 +107,19 @@ window.addEventListener('DOMContentLoaded', async ()=>{
         const downvoteCounter = document.createElement('span');
         downvoteCounter.classList.add('downvote-counter');
         downvoteCounter.innerText = answer.downvoteCounter;
-        votesContainer.append(upvoteCounter, downvoteCounter);
+
+        if (isUser) {
+            const vote = answer.votes?.find(vote => vote.userId === userId);
+
+            if (vote) {
+                vote.value ? upvoteBtn.classList.add('voted') : downvoteBtn.classList.add('voted');
+            }
+
+            upvoteBtn.disabled = false;
+            downvoteBtn.disabled = false;
+        }
+
+        votesContainer.append(upvoteBtn, upvoteCounter, downvoteCounter, downvoteBtn);
         addVotingEvent(votesContainer);
 
         const bodyContainer = document.createElement('div');
@@ -134,19 +141,26 @@ window.addEventListener('DOMContentLoaded', async ()=>{
             editBtn.addEventListener('click', async () => {
                 const editTextField = document.createElement('textarea');
                 editTextField.id = 'answer-body-edit';
-                editTextField.setAttribute('rows', '5');
-                editTextField.setAttribute('cols', '50');
                 editTextField.dataset.questionId = questionId;
                 editTextField.innerText = bodyText.innerText;
+
+                const buttonContainer = document.createElement('div');
+                buttonContainer.classList.add('btn-container');
+
                 const editSubmitBtn = document.createElement('button');
-                editSubmitBtn.innerText = 'Confirm Edit';
+                editSubmitBtn.classList.add('btn');
+                editSubmitBtn.innerText = 'Confirm';
+
                 const cancelSubmitBtn = document.createElement('button');
+                cancelSubmitBtn.classList.add('btn');
                 cancelSubmitBtn.innerText = 'Cancel';
 
                 editBtn.style.display = 'none';
                 deleteBtn.style.display = 'none';
                 bodyText.style.display = 'none';
-                bodyContainer.append(editTextField, editSubmitBtn, cancelSubmitBtn);
+
+                buttonContainer.append(editSubmitBtn, cancelSubmitBtn);
+                bodyContainer.append(editTextField, buttonContainer);
 
                 editSubmitBtn.addEventListener('click', async () => {
                     const body = editTextField.value;
@@ -200,27 +214,22 @@ window.addEventListener('DOMContentLoaded', async ()=>{
 
     // Adds the click event to vote buttons
     const addVotingEvent = (voteContainer) => {
-        voteContainer.addEventListener('click', async (e) => {
-            if (e.target.tagName !== 'BUTTON') return;
-
+        const event = async (e) => {
+            const target = e.currentTarget;
             const answerId = voteContainer.dataset.answerId;
-            const value = e.target.dataset.value === 'up';
+            const value = target.dataset.value === 'up';
 
-            const upvoteBtn = Array.from(voteContainer.children).find(child => child.classList.contains('upvote-btn'));
-            const downvoteBtn = Array.from(voteContainer.children).find(child => child.classList.contains('downvote-btn'));
-
-            if (e.target === upvoteBtn) {
+            if (target === upvoteBtn) {
                 upvoteBtn.classList.toggle('voted');
 
                 if (downvoteBtn.classList.contains('voted')) downvoteBtn.classList.remove('voted');
 
             }
-            else if (e.target === downvoteBtn) {
+            else if (target === downvoteBtn) {
                 downvoteBtn.classList.toggle('voted');
 
                 if (upvoteBtn.classList.contains('voted')) upvoteBtn.classList.remove('voted');
             }
-
 
             const res = await fetch(`/api/answers/${answerId}/votes`, {
                 method: 'PUT',
@@ -237,7 +246,13 @@ window.addEventListener('DOMContentLoaded', async ()=>{
                 Array.from(voteContainer.children).find(child => child.classList.contains('upvote-counter')).innerText = upvoteCounter;
                 Array.from(voteContainer.children).find(child => child.classList.contains('downvote-counter')).innerText = downvoteCounter;
             }
-        });
+        };
+
+        const upvoteBtn = Array.from(voteContainer.children).find(child => child.classList.contains('upvote-btn'));
+        const downvoteBtn = Array.from(voteContainer.children).find(child => child.classList.contains('downvote-btn'));
+
+        upvoteBtn?.addEventListener('click', event);
+        downvoteBtn?.addEventListener('click', event);
     };
 
     // Renders the answer creating form only if the user is logged in, doesn't own the question, and had never answered the question

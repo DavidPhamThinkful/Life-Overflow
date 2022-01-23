@@ -1,7 +1,7 @@
-extends layout
+extends layout.pug
 
 append head
-  //- link(rel="stylesheet" href="/stylesheets/index.css")
+  link(rel='stylesheet' href='/stylesheets/question-page.css')
   script(src="/javascripts/questions.js" type="module" defer)
 
 block content
@@ -9,17 +9,21 @@ block content
     data(id='data' data-is-user='true' data-user-id=user.id data-owner-id=question.userId)
   else
     data(id='data' data-is-user='false')
-  div.question-div
-    p= question.title
-    p.question-data= question.body
-    if user && question.userId === user.id
-      .edit-delete-buttons
-          form(action=`/questions/${question.id}/edit` method='GET')
-              button.edit-button Edit question
-          form(action=`/questions/${question.id}/delete` method='POST')
-              button.delete-button Delete question
+  div.main-container
+    div.question-container
+      div.question-header
+        h2.question-title= question.title
+        div.question-category 
+          span Category:
+          a(href=`/categories/${encodeURIComponent(question.Category.name.toLowerCase())}` class='category-name')= question.Category.name
+      p.question-body= question.body
+      if user && question.userId === user.id
+        .edit-delete-buttons
+            form(action=`/questions/${question.id}/edit` method='GET')
+                button.btn Edit question
+            form(action=`/questions/${question.id}/delete` method='POST')
+                button.btn Delete question
+      div.question-details
+          p.answer-amount= `${question.Answers.length} Answers`
+          p.question-owner= `Author: ${question.User.username}`
     div(id='answers-container')
-    a(href=`/categories/${encodeURIComponent(question.Category.name.toLowerCase())}` class='category-name')= question.Category.name
-    div.question-details
-        p.answer-amount= `${question.Answers.length} Answers`
-        p.question-owner= `${question.User.username}`
