@@ -68,7 +68,7 @@ textarea {
 #nav {
   width: 75%;
   display: grid;
-  grid-template-columns: auto max-content auto;
+  grid-template-columns: 1fr max-content 1fr;
   padding: 5px;
 }
 
