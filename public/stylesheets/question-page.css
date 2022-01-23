@@ -9,7 +9,9 @@
   height: 100%;
   padding: 50px;
   margin-bottom: 50px;
-  border: 1px solid rgba(245, 245, 245, 0.2)
+  border: 1px solid black;
+  box-shadow: 10px 5px 5px red;
+  border-radius: 10px;
 }
 
 .question-container {
@@ -17,20 +19,24 @@
   position: relative;
 }
 
+.question-details {
+
+}
+
 .question-details p {
-  margin: 0;
+  margin-top: 0;
   padding-top: 0;
 }
 
 .answer-amount {
   position: absolute;
-  bottom: -25px;
+  bottom: -45px;
   left: 5px
 }
 
 .question-owner {
   position: absolute;
-  bottom: -25px;
+  bottom: -45px;
   right: 5px
 }
 
@@ -69,7 +75,7 @@
 
 .answer-container {
   display: grid;
-  grid-template-columns: min-content auto;
+  grid-template-columns: min-content min-content auto;
   gap: 10px;
   margin-top: 20px;
 }
@@ -97,6 +103,10 @@ svg path {
 
 .downvote-btn.voted svg path {
   fill: #FAA0A0;
+}
+
+#vote_details {
+  padding-top: 38px;
 }
 
 textarea {
