@@ -1,6 +1,8 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
+  h1= `${errStatus} ${message}`
+  h2#not-found We looked everywhere, but we don't have what you want.
+  if errStatus === 404
+    img(src='https://media2.giphy.com/media/1zKRlTFQ278PtPtrV2/giphy.gif?cid=ecf05e47xzah2uyy1elsglhj409k0un1fexa2rfrxpkctvcp&rid=giphy.gif&ct=g')
   pre #{error.stack}
