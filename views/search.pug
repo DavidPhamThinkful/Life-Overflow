@@ -3,7 +3,8 @@ extends layout.pug
 block content
   if questions.length
     each question in questions
-      div=question.title
+      .question-div
+        a(href=`/questions/${question.id}` class='question-title')= question.title
         p= question.body
   else
     p There are no results that matches your search.

@@ -131,7 +131,7 @@ router.post('/logout', (req, res) => {
 router.post('/demo', asyncHandler(async (req, res) => {
     const user = await db.User.findOne({ where: { username: 'Demo' } });
     loginUser(req, user);
-    res.redirect('back');
+    res.redirect('/');
 }));
 
 router.get('/search', asyncHandler(async (req, res) => {

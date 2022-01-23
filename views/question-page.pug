@@ -1,33 +1,29 @@
-extends layout
+extends layout.pug
+
+append head
+  link(rel='stylesheet' href='/stylesheets/question-page.css')
+  script(src="/javascripts/questions.js" type="module" defer)
 
 block content
-  div.question-div
-    p= question.title
-    p.question-data= question.body
-    if user && question.userId === user.id
-      .edit-delete-buttons
-          form(action=`/questions/${question.id}/edit` method='GET')
-              button.edit-button Edit question
-          form(action=`/questions/${question.id}/delete` method='POST')
-              button.delete-button Delete question
+  if user
+    data(id='data' data-is-user='true' data-user-id=user.id data-owner-id=question.userId)
+  else
+    data(id='data' data-is-user='false')
+  div.main-container
+    div.question-container
+      div.question-header
+        h2.question-title= question.title
+        div.question-category 
+          span Category:
+          a(href=`/categories/${encodeURIComponent(question.Category.name.toLowerCase())}` class='category-name')= question.Category.name
+      p.question-body= question.body
+      if user && question.userId === user.id
+        .edit-delete-buttons
+            form(action=`/questions/${question.id}/edit` method='GET')
+                button.btn Edit question
+            form(action=`/questions/${question.id}/delete` method='POST')
+                button.btn Delete question
+      div.question-details
+          p.answer-amount= `${question.Answers.length} Answers`
+          p.question-owner= `Author: ${question.User.username}`
     div(id='answers-container')
-      each answer in question.Answers
-        div(class='answer-container' data-answer-id=answer.id)
-          if user
-            div(class='votes-container')
-              button(id='upvote' data-answer-id=answer.id) up
-              button(id='downvote' data-answer-id=answer.id) down
-              span(id='upvote-number')
-              span(id='downvote-number')
-          div(class='answer-body-container' data-answer-id=answer.id)
-            p(class='answer-body')= answer.body
-            if user && answer.userId === user.id
-              button(class='edit-button' class='answer-edit-btn' data-answer-id=answer.id) Edit answer
-              button(class='delete-button' class='answer-delete-btn' data-answer-id=answer.id) Delete answer
-    a(href=`/categories/${encodeURIComponent(question.Category.name.toLowerCase())}` class='category-name')= question.Category.name
-    div.question-details
-        p.answer-amount= `${question.Answers.length} Answers`
-        p.question-owner= `${question.User.username}`
-    if hasAnswered === false && question.userId !== user.id
-      textarea(id='answer-body' rows='5' cols='50' data-question-id=question.id)
-      button(id='answer-submit') Post Your Answer

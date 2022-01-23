@@ -11,25 +11,52 @@ router.get('/answers/:id(\\d+)', asyncHandler(async (req, res) => {
         include: 'Votes',
     });
 
-    if (answer) {
+    const votes = answer.Votes;
+    const upvoteCounter = votes.filter(vote => vote.value === true).length;
+    const downvoteCounter = votes.filter(vote => vote.value === false).length;
+
+    const data = {
+        id: answer.id,
+        userId: answer.userId,
+        questionId: answer.questionId,
+        body: answer.body,
+        votes,
+        upvoteCounter,
+        downvoteCounter,
+    };
+
+    res.json({ answer: data });
+}));
+
+router.get('/questions/:questionId(\\d+)/answers', asyncHandler(async (req, res) => {
+    const questionId = parseInt(req.params.questionId);
+
+    const question = await db.Question.findOne({
+        where: { id: questionId },
+        include: {
+            model: db.Answer,
+            include: db.Vote,
+        },
+    });
+    const answers = question.Answers.map(answer => {
         const votes = answer.Votes;
-        const upVotesCounter = votes.filter(vote => vote.value === true).length;
-        const downVotesCounter = votes.filter(vote => vote.value === false).length;
+        const upvoteCounter = votes.filter(vote => vote.value === true).length;
+        const downvoteCounter = votes.filter(vote => vote.value === false).length;
 
         const data = {
             id: answer.id,
             userId: answer.userId,
             questionId: answer.questionId,
             body: answer.body,
-            upVotesCounter,
-            downVotesCounter,
+            votes,
+            upvoteCounter,
+            downvoteCounter,
         };
 
-        res.json({ answer: data });
-    }
-    else {
-        res.json({ message: 'Answer not found ' });
-    }
+        return data;
+    });
+
+    res.json({ answers });
 }));
 
 router.post('/questions/:questionId(\\d+)/answers', asyncHandler(async (req, res) => {
@@ -38,7 +65,17 @@ router.post('/questions/:questionId(\\d+)/answers', asyncHandler(async (req, res
     const { body } = req.body;
 
     const answer = await db.Answer.create({ questionId, userId, body: body });
-    res.json({ body, id: answer.id });
+
+    const data = {
+        id: answer.id,
+        userId: answer.userId,
+        questionId: answer.questionId,
+        body: answer.body,
+        upvoteCounter: 0,
+        downvoteCounter: 0,
+    };
+
+    res.json({ answer: data });
 }));
 
 router.put('/answers/:id(\\d+)', asyncHandler(async (req, res) => {
@@ -49,7 +86,7 @@ router.put('/answers/:id(\\d+)', asyncHandler(async (req, res) => {
     if (answer) {
         answer.body = body;
         await answer.save();
-        res.json({ body, id });
+        res.json(body);
     }
 }));
 

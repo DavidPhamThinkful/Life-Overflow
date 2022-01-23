@@ -9,11 +9,11 @@ block content
           a(href=`/questions/${question.id}` class='question-title')= question.title
           p.question-data= question.body
           if user && question.userId === user.id
-          .edit-delete-buttons
-            form(action=`/questions/${question.id}/edit` method='GET')
-                button.edit-button Edit question
-            form(action=`/questions/${question.id}/delete` method='POST')
-                button.delete-button Delete question
+            .edit-delete-buttons
+              form(action=`/questions/${question.id}/edit` method='GET')
+                button.btn Edit question
+              form(action=`/questions/${question.id}/delete` method='POST')
+                button.btn Delete question
     else
       div.no-questions
         p No questions have been posted yet!
