@@ -1,16 +1,19 @@
-extends layout
+extends layout.pug
 
 block content
-    img(src="https://www.job-hunt.org/wp-content/uploads/2021/05/Smart-Answers-to-the-21-Most-Common-Interview-Questions-in-2021-2.png.webp" style='display: block; margin-left: auto; margin-right: auto; width: 20%')#image
+  div.questions-div
+    img(src=image id='image')
     if questions.length
-        .questions-div
-            each question in questions
-                .question-div
-                    a(href=`/questions/${question.id}` class='question-title')= question.title
-                    p.question-data= question.body
-                    if user && question.userId === user.id
-                            .edit-delete-buttons
-                                form(action=`/questions/${question.id}/edit` method='GET')
-                                    button.btn Edit question
-                                form(action=`/questions/${question.id}/delete` method='POST')
-                                    button.btn Delete question
+      each question in questions
+        div.question-div
+          a(href=`/questions/${question.id}` class='question-title')= question.title
+          p.question-data= question.body
+          if user && question.userId === user.id
+            .edit-delete-buttons
+              form(action=`/questions/${question.id}/edit` method='GET')
+                button.btn Edit question
+              form(action=`/questions/${question.id}/delete` method='POST')
+                button.btn Delete question
+    else
+      div.no-questions
+        p No questions have been posted yet!

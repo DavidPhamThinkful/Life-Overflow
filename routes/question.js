@@ -8,8 +8,11 @@ const router = express.Router();
 
 router.get('/', asyncHandler((async (req, res) => {
     const questions = await db.Question.findAll({
-        include: [{ model: db.Answer }, { model: db.Category }, { model: db.User }] });
-    res.render('questions', { title: 'Here is the list of questions', questions, user: res.locals.user });
+        include: [{ model: db.Answer }, { model: db.Category }, { model: db.User }],
+        order: [['updatedAt', 'DESC']],
+    });
+    const image = 'https://www.job-hunt.org/wp-content/uploads/2021/05/Smart-Answers-to-the-21-Most-Common-Interview-Questions-in-2021-2.png.webp';
+    res.render('questions', { title: 'Here is the list of questions', image, questions, user: res.locals.user });
 })));
 
 

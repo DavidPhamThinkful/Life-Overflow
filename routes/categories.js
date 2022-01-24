@@ -21,11 +21,12 @@ router.get('/:id', asyncHandler(async (req, res) => {
             },
         },
         include: 'Questions',
+        order: [['updatedAt', 'DESC']],
     });
     const questions = category.Questions;
     const image = images[catName];
 
-    res.render('categories', { title: category.name, questions, image });
+    res.render('questions', { title: category.name, questions, image });
 }));
 
 module.exports = router;

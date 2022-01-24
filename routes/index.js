@@ -10,7 +10,9 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', asyncHandler(async (req, res) => {
-    const categories = await db.Category.findAll();
+    const categories = await db.Category.findAll({
+        order: [['name', 'ASC']],
+    });
     res.render('index', { title: 'Welcome to LifeOverflow', categories });
 }));
 
@@ -154,6 +156,7 @@ router.get('/search', asyncHandler(async (req, res) => {
                 },
             ],
         },
+        order: [['updatedAt', 'DESC']],
     });
 
     res.render('search', { title: `Results for "${query}"`, questions });

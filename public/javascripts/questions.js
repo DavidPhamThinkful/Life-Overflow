@@ -87,10 +87,10 @@ window.addEventListener('DOMContentLoaded', async ()=>{
         votesContainer.classList.add('votes-container');
         votesContainer.dataset.answerId = answer.id;
 
-        const voteDetails = document.createElement('span');
-        voteDetails.id = 'vote_details';
-        voteDetails.innerText = 'Vote here';
-        answerContainer.append(voteDetails);
+        // const voteDetails = document.createElement('span');
+        // voteDetails.id = 'vote_details';
+        // voteDetails.innerText = 'Vote here';
+        // answerContainer.append(voteDetails);
 
         const upvoteBtn = document.createElement('button');
         upvoteBtn.classList.add('btn');
