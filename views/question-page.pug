@@ -24,6 +24,6 @@ block content
             form(action=`/questions/${question.id}/delete` method='POST')
                 button.btn Delete question
       div.question-details
-          p.answer-amount= `${question.Answers.length} Answers`
-          p.question-owner= `Author: ${question.User.username}`
+        p.answer-amount= `${question.Answers.length} Answers`
+        p.question-owner= `Author: ${question.User.username}`
     div(id='answers-container')
