@@ -3,7 +3,6 @@ extends layout.pug
 include utils.pug
 
 block content
-  +validationErrors(errors)
   .register-page
     div.register-form
       h2#h2 Register
@@ -11,10 +10,14 @@ block content
         input(type='hidden' name='_csrf' value=csrfToken)
         div.register-username
           +field('Username', 'username', username)
+          p.error #{errors.username}
         div.register-email
           +field('Email', 'email', email, 'email')
+          p.error #{errors.email}
         div.register-password
           +field('Password', 'password', '', 'password')
+          p.error #{errors.password}
         div.register-confirmPassword
           +field('Confirm password', 'confirmPassword', '', 'password')
+          p.error #{errors.email}
         button(type='submit') Sign up

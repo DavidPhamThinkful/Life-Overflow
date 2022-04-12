@@ -65,15 +65,15 @@ const registerValidators = [
 
 const loginValidators = [
     check('email')
-        .exists({ checkFalsy: true })
-        .withMessage('Please enter an email'),
+        .isEmail()
+        .withMessage('Please enter a valid email.'),
     check('password')
         .exists({ checkFalsy: true })
-        .withMessage('Please enter a password'),
+        .withMessage('Please enter a password.'),
 ];
 
 router.get('/register', csrfProtection, (req, res) => {
-    res.render('register', { title: '', csrfToken: req.csrfToken() });
+    res.render('register', { title: '', csrfToken: req.csrfToken(), errors: {} });
 });
 
 router.post('/register', csrfProtection, registerValidators, asyncHandler(async (req, res) => {
@@ -91,20 +91,24 @@ router.post('/register', csrfProtection, registerValidators, asyncHandler(async 
         res.redirect('/');
     }
     else {
-        const errors = validatorErrors.array().map(err => err.msg);
+        const errors = {};
+        validatorErrors.array().forEach(err => {
+            errors[err.param] = err.msg;
+        });
+
         res.render('register', { title: 'Register', csrfToken: req.csrfToken(), username, email, errors });
     }
 }));
 
 router.get('/login', csrfProtection, (req, res) => {
-    res.render('login', { title: '', csrfToken: req.csrfToken() });
+    res.render('login', { title: '', csrfToken: req.csrfToken(), errors: {} });
 });
 
 
 router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
-    let errors = [];
+    const errors = {};
     const validatorErrors = validationResult(req);
 
     if (validatorErrors.isEmpty()) {
@@ -115,11 +119,13 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
             return res.redirect('/');
         }
         else {
-            errors.push('The provided email or password is incorrect');
+            errors.login = 'The provided email or password is incorrect';
         }
     }
     else {
-        errors = validatorErrors.array().map(err => err.msg);
+        validatorErrors.array().forEach(err => {
+            errors[err.param] = err.msg;
+        });
     }
 
     res.render('login', { title: 'Login', csrfToken: req.csrfToken(), email, errors });
