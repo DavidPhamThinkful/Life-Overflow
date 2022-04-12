@@ -225,7 +225,15 @@ textarea {
   height: 300px;
   margin: 2.5%;
   padding: 5px;
+  transition: transform .2s; /* Animation */
 }
+
+.card-body:hover {
+  transform: scale(1.1); 
+}
+
+
+
 
 .card {
   width: 300px;
