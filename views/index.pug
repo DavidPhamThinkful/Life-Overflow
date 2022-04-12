@@ -3,6 +3,7 @@ extends layout
 append head
   //- add page specific styles by appending to the head
   link(rel="stylesheet" href="/stylesheets/index.css")
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   //- add page specific js
   script(src="/javascripts/index.js" type="module" defer)
 
@@ -17,3 +18,22 @@ block content
           div(class='card-body')
             a(href=`/categories/${encodeURIComponent(cat.name.toLowerCase())}` class='category-link')= cat.name
             div(class=`card ${cat.name}`)
+  div(id='footer_container')
+    div(id='footer__copyRight' style="color:white") © #{new Date().getFullYear()} Developed By:
+      div(id='footer__content')
+        div(id='james') James
+          <a href='https://www.linkedin.com/in/jamesjtuttle/' target='_blank'><i class="fa fa-linkedin-square" style="font-size:32px"></i></a>
+          <a href='https://github.com/jjtuttle' target='_blank'><i class="fa fa-github-square" style="font-size:32px"></i></a>
+        div(id='eric') Eric
+          <a href='https://www.linkedin.com/in/erichuang-97/' target='_blank'><i class="fa fa-linkedin-square" style="font-size:32px"></i></a>
+          <a href='https://github.com/iRiceCrispy' target='_blank'><i class="fa fa-github-square" style="font-size:32px"></i></a>
+        div(id='casey') Casey
+          <a href='https://www.linkedin.com/in/casey-spears-4a6042180/' target='_blank'><i class="fa fa-linkedin-square" style="font-size:32px"></i></a>
+          <a href='https://github.com/powerwild' target='_blank'><i class="fa fa-github-square" style="font-size:32px"></i></a>
+        div(id='david') David
+          <a href='https://www.linkedin.com/in/david-anh-pham/' target='_blank'><i class="fa fa-linkedin-square" style="font-size:32px"></i></a>
+          <a href='https://github.com/DavidPhamThinkful' target='_blank'><i class="fa fa-github-square" style="font-size:32px"></i></a>
+
+
+
+
