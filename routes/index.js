@@ -20,8 +20,10 @@ const registerValidators = [
     check('username')
         .exists({ checkFalsy: true })
         .withMessage('Please provide a value for Username')
+        .bail()
         .isLength({ max: 25 })
         .withMessage('Username must not be more than 25 characters long')
+        .bail()
         .custom(value => {
             return db.User.findOne({ where: { username: value } })
                 .then((user) => {
@@ -31,12 +33,12 @@ const registerValidators = [
                 });
         }),
     check('email')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a value for Email')
         .isEmail()
-        .withMessage('The provided Email is not a valid email format')
+        .withMessage('Please enter a valid email.')
+        .bail()
         .isLength({ max: 255 })
         .withMessage('Email Address must not be more than 255 characters long')
+        .bail()
         .custom((value) => {
             return db.User.findOne({ where: { email: value } })
                 .then((user) => {
@@ -48,16 +50,22 @@ const registerValidators = [
     check('password')
         .exists({ checkFalsy: true })
         .withMessage('Please provide a value for Password')
+        .bail()
         .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/, 'g')
-        .withMessage('Password must contain at least 1 lowercase letter, uppercase letter, number, and special character (i.e. "!@#$%^&*")'),
+        .withMessage('Password must contain at least 1 lowercase letter, uppercase letter, number, and special character (i.e. "!@#$%^&*")')
+        .bail()
+        .isLength({ max: 50 })
+        .withMessage('Confirm Password must not be more than 50 characters long'),
     check('confirmPassword')
         .exists({ checkFalsy: true })
         .withMessage('Please provide a value for Confirm Password')
+        .bail()
         .isLength({ max: 50 })
         .withMessage('Confirm Password must not be more than 50 characters long')
+        .bail()
         .custom((value, { req }) => {
             if (value !== req.body.password) {
-                throw new Error('Confirm Password does not match Password');
+                throw new Error('Password and Confirm password must match.');
             }
             return true;
         }),
