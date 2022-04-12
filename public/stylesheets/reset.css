@@ -6,15 +6,28 @@ body {
   padding: 50px;
   display: flex;
   flex-direction: column;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
 }
 
-h1, h2, h3, h4, h5, h6, a, ol, li, ul, div, span,
-body, header, nav {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+ol,
+li,
+ul,
+div,
+span,
+body,
+header,
+nav {
   font-size: 1rem;
   color: inherit;
   background-color: transparent;
@@ -26,20 +39,18 @@ body, header, nav {
 
 body {
   background-color: #d665f2;
-
 }
 
 h1 {
   align-self: center;
   font-size: 2rem;
-
 }
 
 .btn {
   cursor: pointer;
-  color: #39739D;
+  color: #39739d;
   border-radius: 5px;
-  background-color: #E1ECF4;
+  background-color: #e1ecf4;
   padding: 8px 10px;
   box-shadow: inset 0 1px 0 0 #ffffffb3;
 }
@@ -60,7 +71,7 @@ textarea {
 }
 
 .nav-container {
-  background-color: #F8F9F9;
+  background-color: #f8f9f9;
   display: flex;
   justify-content: center;
   position: sticky;
@@ -75,7 +86,9 @@ textarea {
   padding: 5px;
 }
 
-#left-nav, #middle-nav, #right-nav {
+#left-nav,
+#middle-nav,
+#right-nav {
   display: flex;
   align-items: center;
 }
@@ -123,7 +136,7 @@ textarea {
   justify-content: end;
 }
 
-#right-nav>* {
+#right-nav > * {
   flex-shrink: 0;
   margin: 0 5px;
 }
@@ -174,8 +187,8 @@ textarea {
 
 #home {
   text-decoration: none;
-  color: #39739D;
-  background-color: #E1ECF4;
+  color: #39739d;
+  background-color: #e1ecf4;
   border-radius: 4px;
   padding: 8px 10.4px;
   border: 1px solid #7aa7c7;
@@ -184,8 +197,8 @@ textarea {
 
 .btn-light {
   text-decoration: none;
-  color: #39739D;
-  background-color: #E1ECF4;
+  color: #39739d;
+  background-color: #e1ecf4;
   border-radius: 4px;
   padding: 8px 10.4px;
   margin-left: 8px;
@@ -195,8 +208,8 @@ textarea {
 
 .btn-dark {
   text-decoration: none;
-  color: #E1ECF4;
-  background-color: #0A95FF;
+  color: #e1ecf4;
+  background-color: #0a95ff;
   border-radius: 4px;
   padding: 8px 10.4px;
   margin: 0 10px;
@@ -270,7 +283,8 @@ textarea {
   font-weight: bold;
 }
 
-.register-page, #login-page {
+.register-page,
+#login-page {
   display: flex;
   justify-content: center;
   padding: 10%;
@@ -279,7 +293,8 @@ textarea {
   /* background-color: #CF1CFA; */
 }
 
-.register-form, #login-form {
+.register-form,
+#login-form {
   display: flex;
   flex-direction: column;
   /* align-items: center; */
@@ -292,29 +307,38 @@ textarea {
   box-shadow: 10px 5px 5px red;
 }
 
-.register-form-field, #login-form-field {
+.register-form-field,
+#login-form-field {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
 }
 
-#login-email, #login-password {
+#login-email,
+#login-password {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   margin: 2.5% 0;
+}
+
+p.error {
+  margin: 0;
+  font-size: 13px;
+  color: red;
+}
+
+input,
+textarea {
+  width: 100%;
 }
 
 .register-form-field div {
   margin: 2.5% 0;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-}
-
-.input-fields {
-  margin-left: 5px;
 }
 
 #image {
