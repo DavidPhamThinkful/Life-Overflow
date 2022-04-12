@@ -408,6 +408,7 @@ textarea {
   padding-top:5px;
   width:100%;
   bottom:0;
+  height:10vh;
 }
 
 #footer__copyRight {
