@@ -403,9 +403,8 @@ textarea {
   border-radius: 25px;
 }
 
-#footer_container{
+#footer_container  { 
   position: absolute;
-
   background-color:rgba(184, 184, 184, 0.539);
   color:white;
   display: flex;
@@ -416,6 +415,7 @@ textarea {
   padding-top:5px;
   width:100%;
   bottom:0;
+
 }
 
 #footer__copyRight {
@@ -429,13 +429,13 @@ textarea {
 
 #footer__content {
   width:100%;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
+  padding: 5px;
+  /* margin-bottom: 10px; */
   display: flex;
   flex-direction: row; 
-  flex-direction: row; 
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
+
 }
 
 
@@ -455,39 +455,52 @@ textarea {
   opacity: 1;
 }
 
-#james {
+#footer__icons {
   opacity: 0.8;
   color:#ededed;
-  margin-top:5px;
+  /* margin-top:5px; */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content:space-between;
+  width:100%;
+  padding:5px;
+}
+
+
+#james {
+
+  opacity: 0.8;
+  color:#ededed;
+  /* margin-top:5px; */
+  display: flex;
+  flex-direction: row;
   padding:5px;
 }
 
 #eric {
   opacity: 0.8;
   color:#ededed;
-  margin-top:5px;
+  /* margin-top:5px; */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding:5px;
 }
 
 #casey {
   opacity: 0.8;
   color:#ededed;
-  margin-top:5px;
+  /* margin-top:5px; */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding:5px;
 }
 
 #david {
   opacity: 0.8;
   color:#ededed;
-  margin-top:5px;
+  /* margin-top:5px; */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding:5px;
 }
 
