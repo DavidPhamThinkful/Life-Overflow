@@ -229,7 +229,7 @@ textarea {
 }
 
 .card-body:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }
 
 
@@ -403,19 +403,17 @@ textarea {
   border-radius: 25px;
 }
 
-#footer_container  { 
-  position: absolute;
+#footer_container  {
   background-color:rgba(184, 184, 184, 0.539);
   color:white;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   justify-content: space-evenly;
   margin-top:5px;
   margin-bottom:5px;
   padding-top:5px;
   width:100%;
-  bottom:0;
-  height: 9vh;
+  height: 14vh;
 }
 
 #footer__copyRight {
@@ -432,7 +430,7 @@ textarea {
   padding: 5px;
   /* margin-bottom: 10px; */
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
 
@@ -503,5 +501,3 @@ textarea {
   flex-direction: row;
   padding:5px;
 }
-
-
