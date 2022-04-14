@@ -9,7 +9,7 @@ const images = {
     friends: 'https://clipartix.com/wp-content/uploads/2018/01/Friends-clipart-free-download-clip-art-on.jpg',
     romance: 'https://www.pngkit.com/png/detail/171-1719776_romance-clipart-romantic-clipart.png',
     life: 'https://www.pngall.com/wp-content/uploads/1/Life-PNG-Clipart.png',
-    death: 'https://myremovebg.com//static/results/1642626845616474.png',
+    death: 'https://www.pikpng.com/pngl/b/278-2786753_jpg-freeuse-stock-death-pass-away-frames-illustrations.png',
 };
 
 router.get('/:id', asyncHandler(async (req, res) => {
