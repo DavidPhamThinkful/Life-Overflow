@@ -13,11 +13,11 @@ block content
   div(id='main-container')
         div(class='card-body')
           a(href='/questions' class='category-link') Questions
-          div(class='card question-card')
+            div(class='card question-card')
         each cat in categories
           div(class='card-body')
             a(href=`/categories/${encodeURIComponent(cat.name.toLowerCase())}` class='category-link')= cat.name
-            div(class=`card ${cat.name}`)
+              div(class=`card ${cat.name}`)
   div(id='footer_container')
     div(id='footer__copyRight' style="color:white") © #{new Date().getFullYear()} Developed By:
       div(id='footer__content')
