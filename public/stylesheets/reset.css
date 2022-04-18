@@ -274,14 +274,15 @@ textarea {
 }
 
 .Life {
-  background-image: url('https://www.pngall.com/wp-content/uploads/1/Life-PNG-Clipart.png');
+  /* background-image: url('https://www.pngall.com/wp-content/uploads/1/Life-PNG-Clipart.png'); */
+  background-image: url('http://drvidyahattangadi.com/wp-content/uploads/2016/02/Spirit1.jpg');
   background-size: 300px 250px;
   background-repeat: no-repeat;
   background-color: lightskyblue;
 }
 
 .Death {
-  background-image: url('https://www.pikpng.com/pngl/b/278-2786753_jpg-freeuse-stock-death-pass-away-frames-illustrations.png');
+  background-image: url('https://www.clipartkey.com/mpngs/m/172-1721967_death-clipart-deceased-cartoon.png');
   background-size: 300px 250px;
   background-repeat: no-repeat;
   background-color: lightgray;
@@ -415,7 +416,7 @@ textarea {
   padding-top:5px;
   width:100%;
   bottom:0;
-  height: 9vh;
+  height: 10vh;
 }
 
 #footer__copyRight {
@@ -453,6 +454,7 @@ textarea {
   padding:5px;
   text-shadow: 3px 5px 3px #CF1CFA;
   opacity: 1;
+  transform :scale(1.2);
 }
 
 #footer__icons {
